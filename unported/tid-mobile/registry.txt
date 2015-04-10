@@ -1,0 +1,153 @@
+#######################################################################
+# Core Element Registry 
+#######################################################################
+
+# Temporal scope (NOTE: replaced by when: section, still valid in resultcolumns)
+start: time
+end: time
+time: time
+
+#######################################################################
+# Elements used/tested in mplane.ping
+#######################################################################
+
+period.s:
+    Period used for periodic active measurement, in seconds
+delay.twoway.icmp.us: natural
+    Singleton two-way delay as measured by ICMP Echo Request/Reply
+delay.twoway.icmp.us.min: natural
+    Minimum two-way delay as measured by ICMP Echo Request/Reply
+delay.twoway.icmp.us.mean: natural
+    Mean two-way delay as measured by ICMP Echo Request/Reply
+delay.twoway.icmp.us.max: natural
+    Maximum two-way delay as measured by ICMP Echo Request/Reply
+delay.twoway.icmp.us.count: natural
+    Count of valid ICMP Echo Replies received when measuring two-way
+    delay using ICMP Echo Request/Reply
+
+#######################################################################
+# Additional elements from D1.1 (untested)
+#######################################################################
+
+# Additional timing
+duration.s: natural
+duration.ms: natural
+duration.us: natural
+duration.ns: natural
+
+# Topological scope
+source.ip4: address
+source.ip6: address
+source.port: natural
+source.mac: string
+source.link: string
+source.interface: string
+source.device: string
+source.location: string
+destination.ip4: address
+destination.ip6: address
+destination.port: natural
+destination.mac: string
+destination.link: string
+destination.interface: string
+destination.device: string
+observer.ip4: address
+observer.ip6: address
+observer.port: natural
+observer.mac: string
+observer.link: string
+observer.interface: string
+observer.device: string
+intermediate.ip4: address
+intermediate.ip6: address
+intermediate.port: natural
+intermediate.mac: string
+intermediate.link: string
+intermediate.interface: string
+intermediate.device: string
+
+# Counters
+octets.ip: natural
+octets.tcp: natural
+octets.udp: natural
+octets.transport: natural
+octets.layer5: natural
+octets.layer7: natural
+octets.duplicate: natural
+octets.outoforder: natural
+octets.lost: natural
+octets.unreported: natural
+packets.ip: natural
+packets.tcp: natural
+packets.udp: natural
+packets.transport: natural
+packets.layer5: natural
+packets.layer7: natural
+packets.duplicate: natural
+packets.outoforder: natural
+packets.lost: natural
+packets.unreported: natural
+flows: natural
+flows.unreported: natural
+
+# Event timing
+delay.oneway.s: natural
+delay.twoway.icmp.s: natural
+delay.oneway.ms: natural
+delay.oneway.us: natural
+delay.twoway.icmp.us: natural
+delay.oneway.ns: natural
+delay.twoway.icmp.ns: natural
+delay.queue.s: natural
+delay.buffer.s: natural
+delay.queue.ms: natural
+delay.queue.us: natural
+delay.buffer.us: natural
+delay.buffer.ms: natural
+delay.queue.ns: natural
+delay.buffer.ns: natural
+rtt.s: natural
+rtt.ms: natural
+rtt.us: natural
+rtt.ns: natural
+iat.s: natural
+iat.ms: natural
+iat.us: natural
+iat.ns: natural
+
+# Path characteristics
+connectivity.ip: boolean
+connectivity.as: boolean
+hops.ip: natural
+hops.as: natural
+bandwidth.nominal.bps: natural
+bandwidth.nominal.kbps: natural
+bandwidth.nominal.Mbps: natural
+bandwidth.partial.bps: natural
+bandwidth.partial.kbps: natural
+bandwidth.partial.Mbps: natural
+bandwidth.imputed.bps: natural
+bandwidth.imputed.kbps: natural
+bandwidth.imputed.Mbps: natural
+
+# Content characteristics
+url: url
+sessions.transport: natural
+sessions.layer7: natural
+
+# System properties
+cpuload: real
+memload: real
+linkload: real
+bufferload: real
+bufferstalls: natural
+snr: real
+
+# Active test parameters
+period.s: natural
+period.ms: natural
+period.us: natural
+period.ns: natural
+
+# Brokered asynchronous export
+async-target: url

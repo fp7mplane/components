@@ -1,0 +1,509 @@
+{
+  "registry-format": "mplane-0",
+  "registry-revision": 0,
+  "registry-uri": "http://ict-mplane.eu/registry/core.json",
+  "elements": [
+    {
+      "name": "start",
+      "prim": "time",
+      "desc": "The start time of an event/flow that has a duration"
+    },
+    {
+      "name": "end",
+      "prim": "time",
+      "desc": "The end time of an event/flow that has a duration"
+    },
+    {
+      "name": "time",
+      "prim": "time",
+      "desc": "The time at which an event occurred"
+    },
+    {
+      "name": "duration.s",
+      "prim": "natural",
+      "desc": "The duration of an event"
+    },
+    {
+      "name": "duration.ms",
+      "prim": "natural",
+      "desc": "The duration of an event"
+    },
+    {
+      "name": "duration.us",
+      "prim": "natural",
+      "desc": "The duration of an event"
+    },
+    {
+      "name": "duration.ns",
+      "prim": "natural",
+      "desc": "The duration of an event"
+    },
+    {
+      "name": "source.ip4",
+      "prim": "address"
+    },
+    {
+      "name": "source.ip6",
+      "prim": "address"
+    },
+    {
+      "name": "source.port",
+      "prim": "natural"
+    },
+    {
+      "name": "source.mac",
+      "prim": "string"
+    },
+    {
+      "name": "source.link",
+      "prim": "string"
+    },
+    {
+      "name": "source.interface",
+      "prim": "string"
+    },
+    {
+      "name": "source.device",
+      "prim": "string"
+    },
+    {
+      "name": "destination.ip4",
+      "prim": "address"
+    },
+    {
+      "name": "destination.ip6",
+      "prim": "address"
+    },
+    {
+      "name": "destination.port",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.mac",
+      "prim": "string"
+    },
+    {
+      "name": "destination.link",
+      "prim": "string"
+    },
+    {
+      "name": "destination.interface",
+      "prim": "string"
+    },
+    {
+      "name": "destination.device",
+      "prim": "string"
+    },
+    {
+      "name": "observer.ip4",
+      "prim": "address"
+    },
+    {
+      "name": "observer.ip6",
+      "prim": "address"
+    },
+    {
+      "name": "observer.port",
+      "prim": "natural"
+    },
+    {
+      "name": "observer.mac",
+      "prim": "string"
+    },
+    {
+      "name": "observer.link",
+      "prim": "string"
+    },
+    {
+      "name": "observer.interface",
+      "prim": "string"
+    },
+    {
+      "name": "observer.device",
+      "prim": "string"
+    },
+    {
+      "name": "intermediate.ip4",
+      "prim": "address"
+    },
+    {
+      "name": "intermediate.ip6",
+      "prim": "address"
+    },
+    {
+      "name": "intermediate.port",
+      "prim": "natural"
+    },
+    {
+      "name": "intermediate.mac",
+      "prim": "string"
+    },
+    {
+      "name": "intermediate.link",
+      "prim": "string"
+    },
+    {
+      "name": "intermediate.interface",
+      "prim": "string"
+    },
+    {
+      "name": "intermediate.device",
+      "prim": "string"
+    },
+    {
+      "name": "octets.ip",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.tcp",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.udp",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.transport",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.layer5",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.layer7",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.duplicate",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.outoforder",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.lost",
+      "prim": "natural"
+    },
+    {
+      "name": "octets.unreported",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.ip",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.tcp",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.udp",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.transport",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.layer5",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.layer7",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.duplicate",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.outoforder",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.lost",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.unreported",
+      "prim": "natural"
+    },
+    {
+      "name": "flows",
+      "prim": "natural"
+    },
+    {
+      "name": "flows.unreported",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.twoway.icmp.us",
+      "prim": "natural",
+      "desc": "Singleton two-way delay as measured by ICMP Echo Request/Reply"
+    },
+    {
+      "name": "delay.twoway.icmp.us.min",
+      "prim": "natural",
+      "desc": "Minimum two-way delay as measured by ICMP Echo Request/Reply"
+    },
+    {
+      "name": "delay.twoway.icmp.us.mean",
+      "prim": "natural",
+      "desc": "Mean two-way delay as measured by ICMP Echo Request/Reply"
+    },
+    {
+      "name": "delay.twoway.icmp.us.max",
+      "prim": "natural",
+      "desc": "Maximum two-way delay as measured by ICMP Echo Request/Reply"
+    },
+    {
+      "name": "delay.twoway.icmp.us.count",
+      "prim": "natural",
+      "desc": "Count of valid ICMP Echo Replies received when measuring two-way delay using ICMP Echo Request/Reply"
+    },
+    {
+      "name": "delay.oneway.s",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.twoway.icmp.s",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.oneway.ms",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.oneway.us",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.oneway.ns",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.twoway.icmp.ns",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.queue.s",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.buffer.s",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.queue.ms",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.queue.us",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.buffer.us",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.buffer.ms",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.queue.ns",
+      "prim": "natural"
+    },
+    {
+      "name": "delay.buffer.ns",
+      "prim": "natural"
+    },
+    {
+      "name": "rtt.s",
+      "prim": "natural"
+    },
+    {
+      "name": "rtt.ms",
+      "prim": "natural"
+    },
+    {
+      "name": "rtt.us",
+      "prim": "natural"
+    },
+    {
+      "name": "rtt.ns",
+      "prim": "natural"
+    },
+    {
+      "name": "iat.s",
+      "prim": "natural"
+    },
+    {
+      "name": "iat.ms",
+      "prim": "natural"
+    },
+    {
+      "name": "iat.us",
+      "prim": "natural"
+    },
+    {
+      "name": "iat.ns",
+      "prim": "natural"
+    },
+    {
+      "name": "connectivity.ip",
+      "prim": "boolean"
+    },
+    {
+      "name": "connectivity.as",
+      "prim": "boolean"
+    },
+    {
+      "name": "hops.ip",
+      "prim": "natural"
+    },
+    {
+      "name": "hops.as",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.nominal.bps",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.nominal.kbps",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.nominal.Mbps",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.partial.bps",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.partial.kbps",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.partial.Mbps",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.imputed.bps",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.imputed.kbps",
+      "prim": "natural"
+    },
+    {
+      "name": "bandwidth.imputed.Mbps",
+      "prim": "natural"
+    },
+    {
+      "name": "url",
+      "prim": "url"
+    },
+    {
+      "name": "sessions.transport",
+      "prim": "natural"
+    },
+    {
+      "name": "sessions.layer7",
+      "prim": "natural"
+    },
+    {
+      "name": "cpuload",
+      "prim": "real"
+    },
+    {
+      "name": "memload",
+      "prim": "real"
+    },
+    {
+      "name": "linkload",
+      "prim": "real"
+    },
+    {
+      "name": "bufferload",
+      "prim": "real"
+    },
+    {
+      "name": "bufferstalls",
+      "prim": "natural"
+    },
+    {
+      "name": "snr",
+      "prim": "real"
+    },
+    {
+      "name": "period.s",
+      "prim": "natural"
+    },
+    {
+      "name": "period.ms",
+      "prim": "natural"
+    },
+    {
+      "name": "period.us",
+      "prim": "natural"
+    },
+    {
+      "name": "period.ns",
+      "prim": "natural"
+    },
+    {
+      "name": "destinations.ipv4range",
+      "prim": "string",
+      "desc": "List of ip target"
+    },
+    {
+      "name": "cycleduration.s",
+      "prim": "natural",
+      "desc": "Duration of the cycle"
+    },
+    {
+      "name": "numberCycle",
+      "prim": "natural",
+      "desc": "Number of cycles, -1 continuous measurements"
+    },
+    {
+      "name": "ftp.ip4",
+      "prim": "string",
+      "desc": "Ftp server address"
+    },
+    {
+      "name": "ftp.port",
+      "prim": "string",
+      "desc": "Port ftp server"    
+    },
+    {
+      "name": "ftp.user",
+      "prim": "string",
+      "desc": "Ftp user"
+    },
+    {
+      "name": "ftp.password",
+      "prim": "string",
+      "desc": "Ftp password"    
+    },
+    {
+      "name": "ftp.currdir",
+      "prim": "string",
+      "desc": "Ftp directory"
+    },
+    {
+      "name": "ftp.ispsv",
+      "prim": "boolean",
+      "desc": "Passive/active ftp mode"    
+    },
+    {
+      "name": "file.list",
+      "prim": "string",
+      "desc": "List of the uploaded file"
+    }
+  ]
+}
