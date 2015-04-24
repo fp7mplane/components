@@ -46,6 +46,7 @@ def services():
     services.append(blockmonService(packets_capability()))
     services.append(blockmonService(flows_capability()))
     services.append(blockmonService(tcpflows_capability()))
+    services.append(blockmonService(tstat_capability()))
     return services
 
 def packets_capability():
@@ -89,6 +90,14 @@ def tcpflows_capability():
     cap.add_result_column("destination.port")
     return cap
 
+def tstat_capability():
+    cap = mplane.model.Capability(label="blockmon-tstat", when = "now ... future / 1s")
+    cap.add_metadata("System_type", "blockmon")
+    cap.add_metadata("System_ID", "blockmon-Proxy")
+    cap.add_metadata("System_version", "0.1")
+    
+    return cap
+
 def _parse_blockmon_packets_line(line):
     m = _blockmon_packets_re.search(line)
     if m is None:
@@ -128,6 +137,10 @@ def _parse_blockmon_flowstcp_line(line):
            'destination.ip4': mg[7], 'destination.port': int(mg[8])}
     return ret
 
+def _parse_blockmon_tstat_line(line):
+    print(line)
+    return {}
+
 def _parse_blockmon_line(line, spec):
     out = line.rstrip('\n').split('\t')
     if len(out) != 3:
@@ -139,6 +152,8 @@ def _parse_blockmon_line(line, spec):
         ret = _parse_blockmon_flows_line(msg)
     elif spec == "blockmon-flows-tcp":
         ret = _parse_blockmon_flowstcp_line(msg)
+    elif spec == "blockmon-tstat":
+        ret = _parse_blockmon_tstat_line(msg)
     else:
         print("capability {0} is not implemented".format(spec))
         return None
