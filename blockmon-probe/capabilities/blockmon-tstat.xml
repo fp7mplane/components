@@ -9,10 +9,8 @@
 
     <block id="src" type="PcapSource" invocation="async" threadpool="src_thread"> 
       <params>
-        <source type="trace" name="testhttp10.pcap"/>
-        <!-- 
-        <source type="trace" name="-"/>
-        -->
+        <source type="trace" name="sample.pcap"/>
+        <!-- <source type="live" name="eth0"/> -->
       </params>
     </block>
 
