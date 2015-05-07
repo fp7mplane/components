@@ -24,9 +24,11 @@ mSLAcert_main.py						|		          |								mSLAcert_Agent.py
 												|
 									PC3-mPlane Clinet.py: 192.168.3.1
 
+									
 In base of you network configuration you have to change the seguent files, for the Ip and certificates:
 
 ./conf/client.conf
+
 		[TLS]
 		cert = PKI/ca/certs/"client-certicate".crt
 		key = PKI/ca/certs/"plaintext certificate".key
@@ -45,6 +47,7 @@ In base of you network configuration you have to change the seguent files, for t
 		capability-url: "IP supervisor":8890/ (Exmp. 192.168.2.1)
 		
 ./conf/component*.conf
+
 		[TLS]
 		cert = PKI/ca/certs/"Components-certicate".crt
 		key = PKI/ca/certs/"plaintext certificate".key
@@ -76,6 +79,7 @@ In base of you network configuration you have to change the seguent files, for t
 		listen-port = 8888
 
 ./conf/supervisor.conf
+
 		[TLS]
 		cert = PKI/ca/certs/"client-certicate".crt
 		key = PKI/ca/certs/"plaintext certificate.key
