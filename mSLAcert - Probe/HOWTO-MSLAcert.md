@@ -120,6 +120,7 @@ In base of you network configuration you have to change the seguent files, for t
 		listen-port = 8890
 
 ###To generate certificates use the scripts from mPlane RI (https://github.com/fp7mplane/protocol-ri)
+
 ./PKI/create_client_cert.sh
 ./PKI/create_component_cert.sh
 ./PKI/create_supervisor_cert.sh
