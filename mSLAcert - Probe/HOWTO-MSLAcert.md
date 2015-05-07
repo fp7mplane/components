@@ -4,25 +4,25 @@ https://github.com/etego/msla
 
 ###Exmp of the network scenario: 
 
-									PC2-Supervisor.py: 192.168.2.1
-												|
-												|
-												|
-												|
-												|
-										 _______|_________
-										|				  |
-										|				  |
-PC1 - 192.168.1.1 <<<--------------------   Networok	  ----------------------->>>> PC4 - 192.168.4.1
-mSLAcert_main.py						|		          |								mSLAcert_Agent.py
-										|_________________|
-												|
-												|
-												|
-												|
-												|
-												|
-									PC3-mPlane Clinet.py: 192.168.3.1
+											PC2-Supervisor.py: 192.168.2.1
+														|
+														|
+														|
+														|
+														|
+												 _______|_________
+												|				  |
+												|				  |
+		PC1 - 192.168.1.1 <<<--------------------   Networok	  ----------------------->>>> PC4 - 192.168.4.1
+		mSLAcert_main.py						|		          |								mSLAcert_Agent.py
+												|_________________|
+														|
+														|
+														|
+														|
+														|
+														|
+											PC3-mPlane Clinet.py: 192.168.3.1
 
 									
 In base of you network configuration you have to change the seguent files, for the Ip and certificates:
