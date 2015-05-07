@@ -121,10 +121,10 @@ In base of you network configuration you have to change the seguent files, for t
 
 ###To generate certificates use the scripts from mPlane RI (https://github.com/fp7mplane/protocol-ri)
 
-./PKI/create_client_cert.sh
-./PKI/create_component_cert.sh
-./PKI/create_supervisor_cert.sh
-"follow instruction on ./PKI/HOWTO.txt"
+	./PKI/create_client_cert.sh
+	./PKI/create_component_cert.sh
+	./PKI/create_supervisor_cert.sh
+	"follow instruction on ./PKI/HOWTO.txt"
 
 ### Additional configuration
 mSLAcert uses Iperf to generate traffic, the traffic flows from mSLAcert_main to mSLAcert_Agent.
