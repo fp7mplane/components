@@ -55,9 +55,8 @@ In order to have an mPlane-compliant version of the Blockmon node, follow these 
 4. Add a softlink to Blockmon capabilities and to the blockmon.py component
 	`
 	
-		$ cd mplane
 		$ ln -s [COMPONENTS_DIR]/components/blockmon-probe/capabilities capabilities
-		$ cd components
+		$ cd mplane/components
 		$ ln -s [COMPONENTS_DIR]/components/blockmon-probe/blockmon.py blockmon.py
 		$ cd [PROTOCOL_RI_DIR]
 	`
