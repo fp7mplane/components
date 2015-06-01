@@ -20,49 +20,26 @@ This howto assumes that
 * [BLOCKMON_DIR] is the folder where the GitHub repository of the Blockmon node standalone version has been cloned;
 * [PROTOCOL_RI_DIR] is the folder where the GitHub repository of the mPlane protocol reference implementation has been cloned;
 * [COMPONENTS_DIR] is the folder where the GitHub repository of the components (this repository) has been cloned;
-* [PROTOCOL_RI_DIR] is the current working directory.
 
 In order to have an mPlane-compliant version of the Blockmon node, follow these steps.
 
-1. Add the Blockmon component and its capabilities to the protocol RI, inside the corresponding sections in the file **conf/component.conf**
+1. Set the parameters in the file **blockmon-probe/blockmon.conf** (e.g., path to certificates, supervisor address, client port and address, and roles)
+
+2. Set the envirnoment variable MPLANE_RI to point to [PROTOCOL_RI_DIR]
 	`
 	
-		[Authorizations]	
-		blockmon-packets = guest,admin
-		blockmon-flows = guest,admin
-		blockmon-flows-tcp = guest,admin
-		blockmon-tstat = guest,admin
-		
-		[module_blockmon]
-		module = mplane.components.blockmon
+		$ export MPLANE_RI=[PROTOCOL_RI_DIR]
 	`
 
-2. Add the Blockmon capabilities to the supervisor of the protocol RI, inside the corresponding sections in the file **conf/supervisor.conf**
+3. Add a softlink to a working Blockmon standalone executable (e.g., to the folder [BLOCKMON_DIR])
 	`
 	
-		[Authorizations]	
-		blockmon-packets = guest,admin
-		blockmon-flows = guest,admin
-		blockmon-flows-tcp = guest,admin
-		blockmon-tstat = guest,admin
-	`
-
-3. Add a softlink to a working Blockmon standalone executable (e.g., in the folder [BLOCKMON_DIR])
-	`
-	
+		$ cd blockmon-probe
 		$ ln -s [BLOCKMON_DIR]/blockmon blockmon
 	`
-4. Add a softlink to Blockmon capabilities and to the blockmon.py component
-	`
-	
-		$ ln -s [COMPONENTS_DIR]/components/blockmon-probe/capabilities capabilities
-		$ cd mplane/components
-		$ ln -s [COMPONENTS_DIR]/components/blockmon-probe/blockmon.py blockmon.py
-		$ cd [PROTOCOL_RI_DIR]
-	`
 
-5. In order for the example capabilities to work, it is useful to have a softlink to a sample pcap
+4. Run Blockmon probe (you might need administrative privileges if you capture from a network interface) 
 	`
 	
-		$ ln -s [SAMPLES]/sample.pcap sample.pcap
+		$ python3 blockmon.py --config blockmon.conf
 	`
