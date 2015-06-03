@@ -19,7 +19,7 @@ This howto assumes that [PROTOCOL_RI_DIR] is the folder where the GitHub reposit
 
 In order to have an mPlane-compliant version of the Blockmon controller, follow these steps.
 
-1. Set the parameters in the file **blockmon-controller/blockmon.conf** (e.g., path to certificates, supervisor address, client port and address, and roles)
+1. Set the parameters in the file **blockmon-controller/blockmonController.conf** (e.g., path to certificates, supervisor address, client port and address, and roles)
 
 2. Set the envirnoment variable MPLANE_RI to point to [PROTOCOL_RI_DIR]
 	`
@@ -30,8 +30,8 @@ In order to have an mPlane-compliant version of the Blockmon controller, follow 
 3. Set the following parameters in the file **blockmon-controller/blockmonController.py** to connect to the Blockmon controller
 	`
 	
-		_controller_port = Blockmon Controller port
 		_controller_address = Blockmon Controller address
+		_controller_port = Blockmon Controller port
 	`
 
 4. Run Blockmon controller
