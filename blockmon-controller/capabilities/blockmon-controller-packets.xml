@@ -1,0 +1,12 @@
+<templateins id="pkt_counter_aggregator">
+  <description>
+    One node counts packets and sends the report to another node, 
+    which prints the total number of packets being received.
+  </description>
+
+  <vars>
+    <var name="bpf_filter" value="port 80"/>
+    <!-- <var name="datafile" value="test.zip"/> -->
+  </vars>
+
+</templateins>

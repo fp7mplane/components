@@ -42,7 +42,9 @@ _blockmon_flows_re = re.compile("packets=(\d+),bytes=(\d+),start=(\d+),end=(\d+)
 
 _progpath = "."
 _progname = "blockmon"
-_capabilitypath = os.path.join(os.getcwd(), "capabilities")
+
+_module_path = os.path.dirname(os.path.abspath(__file__))
+_capabilitypath = os.path.join(_module_path, "capabilities")
 
 """
 Implements Blockmon capabilities and services
