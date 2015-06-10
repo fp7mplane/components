@@ -1,0 +1,560 @@
+{
+  "registry-format": "mplane-0",
+  "registry-revision": 0,
+  "registry-uri": "https://traverso1.polito.it",
+  "elements": [
+    {
+      "name": "packets.forward",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.forward.syn",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.forward.fin",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.forward.rst",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.forward.ack",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.forward.pure_ack",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.forward.with_payload",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.forward.rxmit",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.forward.outseq",
+      "prim": "natural"
+    },
+    {
+      "name": "bytes.forward",
+      "prim": "natural"
+    },
+    {
+      "name": "bytes.forward.unique",
+      "prim": "natural"
+    },
+    {
+      "name": "bytes.forward.rxmit",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward.syn",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward.fin",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward.rst",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward.ack",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward.pure_ack",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward.with_payload",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward.rxmit",
+      "prim": "natural"
+    },
+    {
+      "name": "packets.backward.outseq",
+      "prim": "natural"
+    },
+    {
+      "name": "bytes.backward",
+      "prim": "natural"
+    },
+    {
+      "name": "bytes.backward.unique",
+      "prim": "natural"
+    },
+    {
+      "name": "bytes.backward.rxmit",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.TTFP.ms",
+      "prim": "time"
+    },
+    {
+      "name": "destination.TTLP.ms",
+      "prim": "time"
+    },
+    {
+      "name": "destination.TTFA.ms",
+      "prim": "time"
+    },
+    {
+      "name": "destination.ip4.isinternal",
+      "prim": "boolean"
+    },
+    {
+      "name": "source.TTFP.ms",
+      "prim": "time"
+    },
+    {
+      "name": "source.TTLP.ms",
+      "prim": "time"
+    },
+    {
+      "name": "source.TTFA.ms",
+      "prim": "time"
+    },
+    {
+      "name": "source.ip4.isinternal",
+      "prim": "boolean"
+    },
+    {
+      "name": "tstat.flow.class.conn",
+      "prim": "string"
+    },
+    {
+      "name": "tstat.flow.class.p2p",
+      "prim": "string"
+    },
+    {
+      "name": "tstat.flow.class.http",
+      "prim": "string"
+    },
+    {
+      "name": "rtt.average.ms",
+      "prim": "time"
+    },
+    {
+      "name": "rtt.min.ms",
+      "prim": "time"
+    },
+    {
+      "name": "rtt.max.ms",
+      "prim": "time"
+    },
+    {
+      "name": "rtt.stddev",
+      "prim": "real"
+    },
+    {
+      "name": "rtt.samples",
+      "prim": "natural"
+    },
+    {
+      "name": "ttl.min",
+      "prim": "natural"
+    },
+    {
+      "name": "ttl.max",
+      "prim": "natural"
+    },
+    {
+      "name": "source.RFC1323.ws",
+      "prim": "boolean"
+    },
+    {
+      "name": "source.RFC1323.ts",
+      "prim": "boolean"
+    },
+    {
+      "name": "source.win_scale",
+      "prim": "natural"
+    },
+    {
+      "name": "source.SACK_set",
+      "prim": "boolean"
+    },
+    {
+      "name": "source.SACK",
+      "prim": "natural"
+    },
+    {
+      "name": "source.MSS.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "source.segment.max.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "source.segment.min.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "source.window.max.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "source.window.min.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "source.window.zero",
+      "prim": "natural"
+    },
+    {
+      "name": "source.cwin.max.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "source.cwin.min.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "source.cwin.first.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "source.rxmit.RTO",
+      "prim": "natural"
+    },
+    {
+      "name": "source.rxmit.RTO.unnecessary",
+      "prim": "natural"
+    },
+    {
+      "name": "source.rxmit.FR",
+      "prim": "natural"
+    },
+    {
+      "name": "source.rxmit.FR.unnecessary",
+      "prim": "natural"
+    },
+    {
+      "name": "source.reordering",
+      "prim": "natural"
+    },
+    {
+      "name": "source.net_dup",
+      "prim": "natural"
+    },
+    {
+      "name": "source.unknown",
+      "prim": "natural"
+    },
+    {
+      "name": "source.flow_control",
+      "prim": "natural"
+    },
+    {
+      "name": "source.SYN.equal_seqno",
+      "prim": "boolean"
+    },
+    {
+      "name": "destination.RFC1323.ws",
+      "prim": "boolean"
+    },
+    {
+      "name": "destination.RFC1323.ts",
+      "prim": "boolean"
+    },
+    {
+      "name": "destination.win_scale",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.SACK_set",
+      "prim": "boolean"
+    },
+    {
+      "name": "destination.SACK",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.MSS.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.segment.max.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.segment.min.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.window.max.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.window.min.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.window.zero",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.cwin.max.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.cwin.min.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.cwin.first.bytes",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.rxmit.RTO",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.rxmit.RTO.unnecessary",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.rxmit.FR",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.rxmit.FR.unnecessary",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.reordering",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.net_dup",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.unknown",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.flow_control",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.SYN.equal_seqno",
+      "prim": "boolean"
+    },
+    {
+      "name": "p2p.subtype",
+      "prim": "string"
+    },
+    {
+      "name": "ed2k.data",
+      "prim": "natural"
+    },
+    {
+      "name": "ed2k.signaling",
+      "prim": "natural"
+    },
+    {
+      "name": "ed2k.i2r",
+      "prim": "natural"
+    },
+    {
+      "name": "ed2k.r2i",
+      "prim": "natural"
+    },
+    {
+      "name": "ed2k.chat",
+      "prim": "natural"
+    },
+    {
+      "name": "source.psh_separated",
+      "prim": "natural"
+    },
+    {
+      "name": "destination.psh_separated",
+      "prim": "natural"
+    },
+    {
+      "name": "ssl.hello.client",
+      "prim": "string"
+    },
+    {
+      "name": "ssl.hello.server",
+      "prim": "string"
+    },
+    {
+      "name": "request.method",
+      "prim": "string"
+    },
+    {
+      "name": "request.hostname",
+      "prim": "string"
+    },
+    {
+      "name": "request.fqdn",
+      "prim": "string"
+    },
+    {
+      "name": "request.path",
+      "prim": "string"
+    },
+    {
+      "name": "request.referer",
+      "prim": "string"
+    },
+    {
+      "name": "request.user_agent",
+      "prim": "string"
+    },
+    {
+      "name": "response.http",
+      "prim": "string"
+    },
+    {
+      "name": "response.code",
+      "prim": "natural"
+    },
+    {
+      "name": "response.content_len",
+      "prim": "natural"
+    },
+    {
+      "name": "response.content_type",
+      "prim": "string"
+    },
+    {
+      "name": "response.content_range",
+      "prim": "string"
+    },
+    {
+      "name": "response.location",
+      "prim": "string"
+    },
+    {
+      "name": "exporter.started",
+      "prim": "string"
+    },
+    {
+      "name": "importer.started",
+      "prim": "string"
+    },
+    {
+      "name": "repo.url",
+      "prim": "string"
+    },    
+    {
+      "name": "log.folder",
+      "prim": "string"
+    },
+    {
+      "name": "log.type",
+      "prim": "string"
+    },
+    {
+      "name": "log.time",
+      "prim": "natural"
+    }, 
+    {
+      "name": "Ethernet.Related.metrics",
+      "prim": "string"
+    },
+
+    {
+      "name": "IP.Related.metrics",
+      "prim": "string"
+    },
+    {
+      "name": "TCP.Related.metrics",
+      "prim": "string"
+    },
+    {
+      "name": "UDP.Related.metrics",
+      "prim": "string"
+    },
+    {
+      "name": "MMedia.Related.metrics",
+      "prim": "string"
+    },
+    {
+      "name": "Classifier.Related.metrics",
+      "prim": "string"
+    },
+    {
+      "name": "P2P-TV.Related.metrics",
+      "prim": "string"
+    },
+    {
+      "name": "Video.Related.metrics",
+      "prim": "string"
+    },
+    {
+      "name": "Profile.Related.metrics",
+      "prim": "string"
+    },
+    {
+      "name": "repository.type",
+      "prim": "string"
+    },
+    {
+      "name": "repository.id",
+      "prim": "string"
+    },
+    {
+      "name": "repository.version",
+      "prim": "string"
+    },
+    {
+      "name": "rrdtimestamp",
+      "prim": "real",
+      "desc": "Timestampt at rrd fetched data"
+    },
+    {
+      "name": "rrdMetirc",
+      "prim": "string",
+      "desc": "The name of rrd's metric "
+    },
+    {
+      "name": "rrdValue",
+      "prim": "real",
+      "desc": "The value of rrd's metric "
+    },
+    {
+      "name": "repository.capability.token",
+      "prim": "string",
+      "desc": "The token of repository's indirect export capability "
+    },
+    {
+      "name": "repository.url",
+      "prim": "url",
+      "desc": "The URL of a repository to accept indirect export"
+    },
+    {
+      "name": "repository.ip4",
+      "prim": "address",
+      "desc": "The destination IPv4 address of a repository to accept indirect export"
+    },
+    {
+      "name": "repository.ip6",
+      "prim": "address",
+      "desc": "The destination IPv6 address of a repository to accept indirect export"
+    },
+    {
+      "name": "repository.port",
+      "prim": "natural",
+      "desc": "The destination layer 4 port of a repository to accept indirect export"
+    }
+  ]
+}
