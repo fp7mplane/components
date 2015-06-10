@@ -29,8 +29,8 @@ import mplane.scheduler
 import mplane.utils
 
 import subprocess
-from tstat_exporters import tstat_rrd_exporter
-from tstat_exporters import tstat_streaming_exporter
+from mplane.components.tstat.tstat_exporters import tstat_rrd_exporter
+from mplane.components.tstat.tstat_exporters import tstat_streaming_exporter
 
 
 """
