@@ -2,7 +2,7 @@
 
 The fully operational OTT probe setup consists of 3 main parts:
 
-- OTT probe. C++ measurement module, available on NETvisor site. 
+- OTT probe. C++ measurement module, available on NETvisor site. You can read about its functionality and the collected metrics at <https://www.ict-mplane.eu/public/ott-probe>.
 - mPlane protocol Reference Implementation, available on GitHub. Component based framework written in Python to enable cooperation of mPlane compliant devices.
 - OTT probe - mPlane SDK interface, available on GitHub. Python interface enabling OTT probe to communicate with other mPlane components.
 
