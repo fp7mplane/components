@@ -1,0 +1,19 @@
+[
+    {
+      "capability": "measure",
+      "label": "ott-download",
+      "parameters": {
+        "source.ip4": "*",
+        "content.url": "*"
+      },
+      "results": [
+        "bandwidth.nominal.kbps",
+        "http.code.max",
+        "http.redirectcount.max",
+        "qos.manifest",
+        "qos.content",
+        "qos.aggregate",
+        "qos.level"
+      ]
+    }
+]

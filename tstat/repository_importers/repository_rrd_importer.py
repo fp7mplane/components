@@ -29,7 +29,7 @@ import tornado.web
 import tornado.httpserver
 import json
 
-from mplane.components.repository_importers.rrd_file_grouping import rrd_file_classification
+from mplane.components.tstat.repository_importers.rrd_file_grouping import rrd_file_classification
 
 
 
