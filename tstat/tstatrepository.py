@@ -29,8 +29,10 @@ import configparser
 import mplane.model
 import mplane.scheduler
 import mplane.utils
-from mplane.components.repository_importers.repository_rrd_importer import HttpServer
-from mplane.components.repository_importers import repository_streaming_importer
+from mplane.components.tstat.repository_importers import rrd_file_grouping
+from mplane.components.tstat.repository_importers import repository_rrd_importer
+from mplane.components.tstat.repository_importers import repository_streaming_importer
+from mplane.components.tstat.repository_importers.repository_rrd_importer import HttpServer
 
 """
 Implements repository capabilities and services
