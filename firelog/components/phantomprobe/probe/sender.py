@@ -130,11 +130,11 @@ class JSONClient():
         :param measurements: a list of OrderedDict, one for each session
         :return:
         """
-        from .utils import prepare_for_csv
+        from utils import utils
         csvfiles = []
         csvnum = 0
         for session in measurements:
-            expanded_session = prepare_for_csv(session)
+            expanded_session = utils.prepare_for_csv(session)
             max_len = 0
             mapping = {}
             result = []

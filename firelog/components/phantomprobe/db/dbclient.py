@@ -4,12 +4,11 @@ import time
 import logging
 import sqlite3
 import json
-import sys
 
 from .dbconnector import DBConnector
-from . import createqueries as cq
-from ..probe.parser import Parser
-
+import db.createqueries as cq
+from probe.parser import Parser
+import sys
 
 logger = logging.getLogger('DBClient')
 

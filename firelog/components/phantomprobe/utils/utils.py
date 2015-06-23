@@ -3,8 +3,11 @@ import os
 import logging
 import socket
 import json
+import urllib.request
+
 
 logger = logging.getLogger(__name__)
+
 
 def clean_tmp_files(backupdir, outfilelist, sessionurl, error=False):
     if error:
@@ -32,6 +35,13 @@ def valid_ip(address):
         return True
     except socket.error:
         return False
+
+
+def get_location():
+        loc_request = urllib.request.Request('http://ipinfo.io')
+        loc_request.add_header('User-Agent', 'curl/7.30.0')
+        response = urllib.request.urlopen(loc_request)
+        return json.loads(response.read().decode('utf-8'))
 
 
 def add_prefix(c, prefix):
