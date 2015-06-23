@@ -2,7 +2,7 @@
 
 The fully operational OTT probe setup consists of 3 main parts:
 
-- OTT probe. C++ measurement module, available on NETvisor site. You can read about its functionality and the collected metrics at <https://www.ict-mplane.eu/public/ott-probe>.
+- OTT probe. C++ measurement module, available on NETvisor site (see below). You can read about its functionality and the collected metrics at <https://www.ict-mplane.eu/public/ott-probe>.
 - mPlane protocol Reference Implementation, available on GitHub. Component based framework written in Python to enable cooperation of mPlane compliant devices.
 - OTT probe - mPlane SDK interface, available on GitHub. Python interface enabling OTT probe to communicate with other mPlane components.
 
@@ -17,7 +17,7 @@ Prerequisite for the C++ module:
 - `libreactor` - published by NETvisor Ltd.  
 - `probe-ott` published by NETvisor Ltd.
 
-The published modules are avaible at <http://tufaweb.netvisor.hu/ottdemo/mplane-ottmodule.tar.gz>. To speed up testing there is no need to compile it from source as it is already avaible for various platforms:
+The published modules are avaible at <http://tufaweb.netvisor.hu/ottdemo/mplane-ottmodule.tar.gz>, or at http://tufaweb.netvisor.hu/mplane/ott-probe/mplane-ottmodule.tar.gz. To speed up testing there is no need to compile it from source as it is already avaible for various platforms:
 
 - ar71xx (tested on OpenWRT 12.04)  
 - x86_64 (tested on Ubuntu 14.04)  
@@ -62,7 +62,7 @@ export PYTHONPATH=$PYTHONPATH:<protocol-ri_dir>
 
 Copy the ott-probe interface stuff (`<components_dir>\ott-probe` folder) into  `<protocol-ri_dir>/mplane/components`. This directory should contains the followings:
 
-- `registry.json`    The registry.json file containing the needed extensions for the OTT-probe  
+- `ott_registry.json`    The registry.json file containing the needed extensions for the OTT-probe (core registry is included within). It can be also downloaded from http://tufaweb.netvisor.hu/mplane/ott-probe/ott-registry.json.
 - `ott.py`    The Python interface
 - `ott.conf`    The config file for running OTT in the component framework  
 - `supervisor.conf` and `client.conf`	We put them here until our `registry.json` will not merged into the official one
