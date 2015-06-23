@@ -449,38 +449,29 @@ if __name__ == "__main__":
         print("Linux is supported only. Output lines of ping command won't probably be parsed correctly.")
         exit(2)
 
-    # look for TLS configuration
     parser = argparse.ArgumentParser(description="mPlane generic Supervisor")
     parser.add_argument('--config', metavar="config-file",
                         help="Configuration file")
     args = parser.parse_args()
 
-    # check if conf file parameter has been inserted in the command line
     if not args.config:
         print('\nERROR: missing --config\n')
         parser.print_help()
         exit(1)
 
-    # Read the configuration file
     config = configparser.ConfigParser()
     config.optionxform = str
     config.read(mplane.utils.search_path(args.config))
 
-    # should move to _init_ ?
-    print(">>> __main__: mplane.model.initialize_registry(self.config[component][registry_uri])")
-    # mplane.model.initialize_registry()
     mplane.model.initialize_registry(config["component"]["registry_uri"])
     
-    print("__main__: OttProbe()")
-    # ottprobe = OttProbe()
     ottprobe = OttProbe(config)
-    print(">>> after ottprobe = OttProbe(): ip4addr = " + ottprobe.ip4addr + "\n")
+
     # uncomment this line for testing
     # manually_test_ott() 
     
     ottprobe.register_capabilities()
 
-    print("ott:__main__: start loop of Checking for Specifications...\n")
     while True:
         ottprobe.check_for_specs()
         sleep(5)
