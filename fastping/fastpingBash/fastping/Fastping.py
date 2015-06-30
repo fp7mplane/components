@@ -5,16 +5,14 @@ from SharedParameter import SharedParameter
 from PARAMETERS import Parameters
 import threading
 import time
-import logging
 
 
 class Fastping():
     
     def __init__(self,deltaM,ping_freq,MAX_CYCLE,target,lowerUpper,filepath,saveRaw,saveCycleSummary,saveStat,saveQD,upload,queuingDelay):
-        self.shared=SharedParameter(Parameters(deltaM,ping_freq,MAX_CYCLE,target,lowerUpper,filepath,saveRaw,saveCycleSummary,saveStat,saveQD,upload,queuingDelay))
-        logging.basicConfig(filename=self.shared.parameters.log,level=logging.DEBUG, format='%(asctime)s %(name)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-       
-            
+
+        self.shared=SharedParameter(Parameters(deltaM,ping_freq,MAX_CYCLE,target,lowerUpper,filepath,saveRaw,saveCycleSummary,saveStat,saveQD,True,queuingDelay,upload))        
+
     def run(self):
         threads = []
         self.event=threading.Event()
@@ -53,6 +51,7 @@ class Fastping():
                 print time.time()-a
 #------------------------------Parameters------------------------------
     def setParameters(self,deltaM,ping_freq,MAX_CYCLE,target,lowerUpper,filepath,saveRaw,saveCycleSummary,saveStat,saveQD,upload,queuingDelay):
+        print upload
         self.shared.parameters=Parameters(deltaM,ping_freq,MAX_CYCLE,target,lowerUpper,filepath,saveRaw,saveCycleSummary,saveStat,saveQD,upload,queuingDelay)        
         
     #MANAGER SETTINGS

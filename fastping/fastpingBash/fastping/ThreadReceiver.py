@@ -12,6 +12,7 @@ class ThreadReceiver (threading.Thread):
         self.name = name
         self.shared=shared
         self.receive=PingListener(shared)
+        logging.basicConfig(filename='fastPing.log',level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')#credo si possa passare come argomento a tutti e 3
         self.event=event   
 
 

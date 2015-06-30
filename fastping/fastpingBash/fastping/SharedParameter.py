@@ -9,7 +9,7 @@ class SharedParameter():
         self.stats=Stats
         self.hostname=Hostname
          
-        self.destList=None 
+        self.destList=None #pensop che era meglio caricarle in PingManager e poi passarle
         self.sender=None
         self.receiver=None
         self.uploader=None
