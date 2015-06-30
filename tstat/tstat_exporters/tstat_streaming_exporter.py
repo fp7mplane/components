@@ -71,12 +71,7 @@ def tail_tstat_log(filename, address, port, timeoutset, pid):
     handled by an independent subprocess, so that all the available cores are employed.
     """
     subp = None
-    # Check the file is gzipped
-    print(filename)
-    if filename.endswith(".gz"):
-        subp = subprocess.Popen('gzcat %s | tail -f' % filename, stdout=subprocess.PIPE, shell=True)
-    else:
-        subp = subprocess.Popen('tail -f %s' % filename, stdout=subprocess.PIPE, shell=True)
+    subp = subprocess.Popen('tail -f %s' % filename, stdout=subprocess.PIPE, shell=True)
     subpfile = open("/tmp/log_to_tcp_tail_pid.txt", "w")
     subpfile.write("%d\n" % subp.pid)
     subpfile.close()
