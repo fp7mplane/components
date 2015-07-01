@@ -1135,7 +1135,7 @@
     },
     {
       "name": "scamper.ping.rr",
-      "prim": "boolean",
+      "prim": "natural",
       "desc": "specifies that the record route IP option should be used."
     },
     {
@@ -1180,7 +1180,7 @@
     },
     {
       "name": "scamper.trace.M",
-      "prim": "boolean",
+      "prim": "natural",
       "desc": "specifies that path MTU discovery (PMTUD) should be attempted for the path when the initial traceroute completes.  scamper will not conduct PMTUD unless it is probing a respon sive destination, as otherwise there is no way to distinguish all packets being lost from just big packets (larger than MTU) being lost."
     },
     {
@@ -1210,7 +1210,7 @@
     },
     {
       "name": "scamper.trace.Q",
-      "prim": "boolean",
+      "prim": "natural",
       "desc": "specifies that all allocated probes are sent, regardless of how many responses have been received."
     },
     {
@@ -1230,7 +1230,7 @@
     },
     {
       "name": "scamper.trace.T",
-      "prim": "boolean",
+      "prim": "natural",
       "desc": "specifies that time exceeded messages from the destination do not cause the trace to be defined as reaching the destination."
     },
     {
@@ -1245,7 +1245,7 @@
     },
     {
       "name": "scamper.trace.waitprobe",
-      "prim": "real",
+      "prim": "natural",
       "desc": "specifies the minimum time to wait, in 10s of milliseconds, between sending consecutive probes.  By default the next probe is sent as soon as possible."
     },
     {

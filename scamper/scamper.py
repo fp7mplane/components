@@ -393,7 +393,7 @@ def _tracelb_process(sipaddr, dipaddr, confidence, dport, firsthop, gaplimit,  m
 ###############################################################################
 
 def tracebox4_standard_capability(ipaddr):
-    cap = mplane.model.Capability(label="tracebox-standard-ip4", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-tracebox-standard-ip4", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -406,7 +406,7 @@ def tracebox4_standard_capability(ipaddr):
     return cap
 
 def tracebox4_specific_capability(ipaddr):
-    cap = mplane.model.Capability(label="tracebox-specific-ip4", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-tracebox-specific-ip4", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -423,7 +423,7 @@ def tracebox4_specific_capability(ipaddr):
     return cap
 
 def tracebox4_specific_quotesize_capability(ipaddr):
-    cap = mplane.model.Capability(label="tracebox-specific-quotesize-ip4", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-tracebox-specific-quotesize-ip4", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -442,7 +442,7 @@ def tracebox4_specific_quotesize_capability(ipaddr):
 
 
 def tracebox6_standard_capability(ipaddr):
-    cap = mplane.model.Capability(label="tracebox-standard-ip6", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-tracebox-standard-ip6", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -455,7 +455,7 @@ def tracebox6_standard_capability(ipaddr):
     return cap
 
 def tracebox6_specific_capability(ipaddr):
-    cap = mplane.model.Capability(label="tracebox-specific-ip6", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-tracebox-specific-ip6", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -472,7 +472,7 @@ def tracebox6_specific_capability(ipaddr):
     return cap
 
 def tracebox6_specific_quotesize_capability(ipaddr):
-    cap = mplane.model.Capability(label="tracebox-specific-quotesize-ip6", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-tracebox-specific-quotesize-ip6", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -490,7 +490,7 @@ def tracebox6_specific_quotesize_capability(ipaddr):
     return cap
 
 def ping4_aggregate_capability(ipaddr):
-    cap = mplane.model.Capability(label="ping-average-ip4", when = "now ... future / 1s")
+    cap = mplane.model.Capability(label="scamper-ping-average-ip4", when = "now ... future / 1s")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -498,14 +498,14 @@ def ping4_aggregate_capability(ipaddr):
     cap.add_parameter("source.ip4",ipaddr)
     cap.add_parameter("destination.ip4")
 
-    cap.add_parameter("scamper.ping.payload","*")#,"")
-    cap.add_parameter("scamper.ping.icmp.checksum","*")#,"")
+    #cap.add_parameter("scamper.ping.payload","*")#,"")
+    #cap.add_parameter("scamper.ping.icmp.checksum","*")#,"")
     cap.add_parameter("scamper.ping.dport","0 ... 65535")#,"80")
     cap.add_parameter("scamper.ping.sport","0 ... 65535")#,_random_sport())
     cap.add_parameter("scamper.ping.ttl","0 ... 255")#,64)
-    cap.add_parameter("scamper.ping.pattern","*")#,"")
+    #cap.add_parameter("scamper.ping.pattern","*")#,"")
     cap.add_parameter("scamper.ping.method","icmp-echo,icmp-time,tcp-ack,tcp-ack-sport,udp,udp-dport")#,"icmp-echo")
-    cap.add_parameter("scamper.ping.rr","0,1")#,0)
+    cap.add_parameter("scamper.ping.rr","0 ... 1")#,0)
     cap.add_parameter("scamper.ping.size","84 ... 140")#,84)
     cap.add_parameter("scamper.ping.tos","0 ... 255")#,0)
 
@@ -516,7 +516,7 @@ def ping4_aggregate_capability(ipaddr):
     return cap
 
 def ping4_singleton_capability(ipaddr):
-    cap = mplane.model.Capability(label="ping-detail-ip4", when = "now ... future / 1s")
+    cap = mplane.model.Capability(label="scamper-ping-detail-ip4", when = "now ... future / 1s")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -524,14 +524,14 @@ def ping4_singleton_capability(ipaddr):
     cap.add_parameter("source.ip4",ipaddr)
     cap.add_parameter("destination.ip4")
 
-    cap.add_parameter("scamper.ping.payload","*")#,"")
-    cap.add_parameter("scamper.ping.icmp.checksum","*")#,"")
+    #cap.add_parameter("scamper.ping.payload","*")#,"")
+    #cap.add_parameter("scamper.ping.icmp.checksum","*")#,"")
     cap.add_parameter("scamper.ping.dport","0 ... 65535")#"80")
     cap.add_parameter("scamper.ping.sport","0 ... 65535")#,_random_sport())
     cap.add_parameter("scamper.ping.ttl","0 ... 255")#,64)
-    cap.add_parameter("scamper.ping.pattern","*")#,"")
+    #cap.add_parameter("scamper.ping.pattern","*")#,"")
     cap.add_parameter("scamper.ping.method","icmp-echo,icmp-time,tcp-ack,tcp-ack-sport,udp,udp-dport")#,"icmp-echo")
-    cap.add_parameter("scamper.ping.rr","0,1")#,0)
+    cap.add_parameter("scamper.ping.rr","0 ... 1")#,0)
     cap.add_parameter("scamper.ping.size","84 ... 140")#,84)
     cap.add_parameter("scamper.ping.tos","0 ... 255")#,0)
 
@@ -540,7 +540,7 @@ def ping4_singleton_capability(ipaddr):
     return cap
 
 def ping6_aggregate_capability(ipaddr):
-    cap = mplane.model.Capability(label="ping-average-ip6", when = "now ... future / 1s")
+    cap = mplane.model.Capability(label="scamper-ping-average-ip6", when = "now ... future / 1s")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -548,14 +548,14 @@ def ping6_aggregate_capability(ipaddr):
     cap.add_parameter("source.ip6",ipaddr)
     cap.add_parameter("destination.ip6") 
 
-    cap.add_parameter("scamper.ping.payload","*")#,"")
-    cap.add_parameter("scamper.ping.icmp.checksum","*")#,"")
+    #cap.add_parameter("scamper.ping.payload","*")#,"")
+    #cap.add_parameter("scamper.ping.icmp.checksum","*")#,"")
     cap.add_parameter("scamper.ping.dport","0 ... 65535")#,"80")
     cap.add_parameter("scamper.ping.sport","0 ... 65535")#,_random_sport())
     cap.add_parameter("scamper.ping.ttl","0 ... 255")#,64)
-    cap.add_parameter("scamper.ping.pattern","*")#,"")
+    #cap.add_parameter("scamper.ping.pattern","*")#,"")
     cap.add_parameter("scamper.ping.method","icmp-echo,icmp-time,tcp-ack,tcp-ack-sport,udp,udp-dport")#,"icmp-echo")
-    cap.add_parameter("scamper.ping.rr","0,1")#,0)
+    cap.add_parameter("scamper.ping.rr","0 ... 1")#,0)
     cap.add_parameter("scamper.ping.size","56 ... 140")#,56)
     cap.add_parameter("scamper.ping.tos","0 ... 255")#,0)
 
@@ -566,7 +566,7 @@ def ping6_aggregate_capability(ipaddr):
     return cap
 
 def ping6_singleton_capability(ipaddr):
-    cap = mplane.model.Capability(label="ping-detail-ip6", when = "now ... future / 1s")
+    cap = mplane.model.Capability(label="scamper-ping-detail-ip6", when = "now ... future / 1s")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -574,14 +574,14 @@ def ping6_singleton_capability(ipaddr):
     cap.add_parameter("source.ip6",ipaddr)
     cap.add_parameter("destination.ip6")
 
-    cap.add_parameter("scamper.ping.payload","*")#,"")
-    cap.add_parameter("scamper.ping.icmp.checksum","*")#,"")
+    #cap.add_parameter("scamper.ping.payload","*")#,"")
+    #cap.add_parameter("scamper.ping.icmp.checksum","*")#,"")
     cap.add_parameter("scamper.ping.dport","0 ... 65535")#,"80")
     cap.add_parameter("scamper.ping.sport","0 ... 65535")#,_random_sport())
     cap.add_parameter("scamper.ping.ttl","0 ... 255")#,64)
-    cap.add_parameter("scamper.ping.pattern","*")#,"")
+    #cap.add_parameter("scamper.ping.pattern","*")#,"")
     cap.add_parameter("scamper.ping.method","icmp-echo,icmp-time,tcp-ack,tcp-ack-sport,udp,udp-dport")#,"icmp-echo")
-    cap.add_parameter("scamper.ping.rr","0,1")#,0)
+    cap.add_parameter("scamper.ping.rr","0 ... 1")#,0)
     cap.add_parameter("scamper.ping.size","56 ... 140")#,56)
     cap.add_parameter("scamper.ping.tos","0 ... 255")#,0)
 
@@ -595,7 +595,7 @@ def trace4_standard_capability(ipaddr):
                             scamper.trace.loopaction, scamper.trace.sport, 
                             scamper.trace.waitprobe
     """
-    cap = mplane.model.Capability(label="trace-standard-ip4", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-trace-standard-ip4", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -603,27 +603,27 @@ def trace4_standard_capability(ipaddr):
     cap.add_parameter("source.ip4",ipaddr)
     cap.add_parameter("destination.ip4")
 
-    cap.add_parameter("scamper.trace.confidence","95,99")#, 99)
+    cap.add_parameter("scamper.trace.confidence","95 ... 99")#, 95)
     cap.add_parameter("scamper.trace.dport","0 ... 65535")#, 33435)
     cap.add_parameter("scamper.trace.firsthop","0 ... 255")#, 1)
     cap.add_parameter("scamper.trace.gaplimit","0 ... 255")#, 5)
-    cap.add_parameter("scamper.trace.gapaction","1,2")#, 1)
+    cap.add_parameter("scamper.trace.gapaction","1 ... 2")#, 1)
     cap.add_parameter("scamper.trace.maxttl","0 ... 255")#, 255)
-    cap.add_parameter("scamper.trace.M","0,1")#,0)
+    cap.add_parameter("scamper.trace.M","0 ... 1")#,0)
     cap.add_parameter("scamper.trace.loops","0 ... 255")#,1)
-    cap.add_parameter("scamper.trace.loopaction","0,1")#,0)
-    cap.add_parameter("scamper.trace.payload","*")#,"")
+    cap.add_parameter("scamper.trace.loopaction","0 ... 1")#,0)
+    #cap.add_parameter("scamper.trace.payload","*")#,"")
     cap.add_parameter("scamper.trace.method","UDP-paris,UDP,ICMP,ICMP-paris,TCP,TCP-ACK")#, "UDP-paris")
     cap.add_parameter("scamper.trace.attempts","0 ... 255")#,2)
-    cap.add_parameter("scamper.trace.Q","0,1")#,0)
+    cap.add_parameter("scamper.trace.Q","0 ... 1")#,0)
     cap.add_parameter("scamper.trace.sport","0 ... 65535")#,_random_sport())
-    cap.add_parameter("scamper.trace.srcaddr","*")#,ipaddr)
+    #cap.add_parameter("scamper.trace.srcaddr","*")#,ipaddr)
     cap.add_parameter("scamper.trace.tos","0 ... 255")#,0)
-    cap.add_parameter("scamper.trace.T","0,1")#,0)
+    cap.add_parameter("scamper.trace.T","0 ... 1")#,0)
     cap.add_parameter("scamper.trace.wait","0 ... 255")#,5)
     cap.add_parameter("scamper.trace.waitprobe","0 ... 2550000")#,0)
-    cap.add_parameter("scamper.trace.gssentry","*")
-    cap.add_parameter("scamper.trace.lssname","*")
+    #cap.add_parameter("scamper.trace.gssentry","*")
+    #cap.add_parameter("scamper.trace.lssname","*")
 
     cap.add_result_column("scamper.trace.hop.ip4")
     cap.add_result_column("rtt.ms")
@@ -636,7 +636,7 @@ def trace6_standard_capability(ipaddr):
                             scamper.trace.loopaction, scamper.trace.sport, 
                             scamper.trace.waitprobe
     """
-    cap = mplane.model.Capability(label="trace-standard-ip6", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-trace-standard-ip6", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -644,27 +644,27 @@ def trace6_standard_capability(ipaddr):
     cap.add_parameter("source.ip6",ipaddr)
     cap.add_parameter("destination.ip6")
 
-    cap.add_parameter("scamper.trace.confidence","95,99")#,99)
+    cap.add_parameter("scamper.trace.confidence","95,99")#,95)
     cap.add_parameter("scamper.trace.dport","0 ... 65535")#, 33435)
     cap.add_parameter("scamper.trace.firsthop","0 ... 255")#, 1)
     cap.add_parameter("scamper.trace.gaplimit","0 ... 255")#, 5)
-    cap.add_parameter("scamper.trace.gapaction","1,2")#, 1)
+    cap.add_parameter("scamper.trace.gapaction","1 ... 2")#, 1)
     cap.add_parameter("scamper.trace.maxttl","0 ... 255")#, 255)
-    cap.add_parameter("scamper.trace.M","0,1")#,0)
+    cap.add_parameter("scamper.trace.M","0 ... 1")#,0)
     cap.add_parameter("scamper.trace.loops","0 ... 255")#,1)
-    cap.add_parameter("scamper.trace.loopaction","0,1")#,0)
-    cap.add_parameter("scamper.trace.payload","*")#,"")
+    cap.add_parameter("scamper.trace.loopaction","0 ... 1")#,0)
+    #cap.add_parameter("scamper.trace.payload","*")#,"")
     cap.add_parameter("scamper.trace.method","UDP-paris,UDP,ICMP,ICMP-paris,TCP,TCP-ACK")#, "UDP-paris")
     cap.add_parameter("scamper.trace.attempts","0 ... 255")#,2)
-    cap.add_parameter("scamper.trace.Q","0,1")#,0)
+    cap.add_parameter("scamper.trace.Q","0 ... 1")#,0)
     cap.add_parameter("scamper.trace.sport","0 ... 65535")#,_random_sport())
-    cap.add_parameter("scamper.trace.srcaddr","*")#,ipaddr)
+    #cap.add_parameter("scamper.trace.srcaddr","*")#,ipaddr)
     cap.add_parameter("scamper.trace.tos","0 ... 255")#,0)
-    cap.add_parameter("scamper.trace.T","0,1")#,0)
+    cap.add_parameter("scamper.trace.T","0 ... 1")#,0)
     cap.add_parameter("scamper.trace.wait","0 ... 255")#,5)
     cap.add_parameter("scamper.trace.waitprobe","0 ... 2550000")#,0)
-    cap.add_parameter("scamper.trace.gssentry","*")
-    cap.add_parameter("scamper.trace.lssname","*")
+    #cap.add_parameter("scamper.trace.gssentry","*")
+    #cap.add_parameter("scamper.trace.lssname","*")
 
     cap.add_result_column("scamper.trace.hop.ip6")
     cap.add_result_column("rtt.ms")
@@ -672,7 +672,7 @@ def trace6_standard_capability(ipaddr):
     return cap
 
 def tracelb4_standard_capability(ipaddr):
-    cap = mplane.model.Capability(label="tracelb-standard-ip4", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-tracelb-standard-ip4", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -680,11 +680,11 @@ def tracelb4_standard_capability(ipaddr):
     cap.add_parameter("source.ip4",ipaddr)
     cap.add_parameter("destination.ip4")
 
-    cap.add_parameter("scamper.tracelb.confidence","95,99")
+    cap.add_parameter("scamper.tracelb.confidence","95 ... 99")#,95)
     cap.add_parameter("scamper.tracelb.dport","0 ... 65535")#, 33435)
     cap.add_parameter("scamper.tracelb.firsthop","0 ... 255")#, 1)
     cap.add_parameter("scamper.tracelb.gaplimit","0 ... 255")#, 5)
-    cap.add_parameter("scamper.tracelb.method","udp-dport")
+    cap.add_parameter("scamper.tracelb.method","udp-dport,icmp-echo,udp-sport,tcp-sport,tcp-ack-sport,udp-dport")#"udp-dport"
     cap.add_parameter("scamper.tracelb.attempts","0 ... 255")#,2)
     cap.add_parameter("scamper.tracelb.maxprobec","1 ... 10000")#,3000)
     cap.add_parameter("scamper.tracelb.sport","0 ... 65535")#,_random_sport())
@@ -696,7 +696,7 @@ def tracelb4_standard_capability(ipaddr):
     return cap
 
 def tracelb6_standard_capability(ipaddr):
-    cap = mplane.model.Capability(label="tracelb-standard-ip6", when = "now ... future")
+    cap = mplane.model.Capability(label="scamper-tracelb-standard-ip6", when = "now ... future")
     cap.add_metadata("System_type", "Scamper")
     cap.add_metadata("System_ID", "Scamper-Proxy")
     cap.add_metadata("System_version", "0.1")
@@ -704,11 +704,11 @@ def tracelb6_standard_capability(ipaddr):
     cap.add_parameter("source.ip6",ipaddr)
     cap.add_parameter("destination.ip6")
 
-    cap.add_parameter("scamper.tracelb.confidence","95,99")
+    cap.add_parameter("scamper.tracelb.confidence","95 ... 99")#,95)
     cap.add_parameter("scamper.tracelb.dport","0 ... 65535")#, 33435)
     cap.add_parameter("scamper.tracelb.firsthop","0 ... 255")#, 1)
     cap.add_parameter("scamper.tracelb.gaplimit","0 ... 255")#, 5)
-    cap.add_parameter("scamper.tracelb.method","udp-dport")
+    cap.add_parameter("scamper.tracelb.method","udp-dport,icmp-echo,udp-sport,tcp-sport,tcp-ack-sport,udp-dport")#"udp-dport"
     cap.add_parameter("scamper.tracelb.attempts","0 ... 255")#,2)
     cap.add_parameter("scamper.tracelb.maxprobec","1 ... 10000")#,3000)
     cap.add_parameter("scamper.tracelb.sport","0 ... 65535")#,_random_sport())
@@ -810,12 +810,12 @@ class ScamperService(mplane.scheduler.Service):
             count = int(duration / period)
         else:
             count = None
-        payload = spec.get_parameter_value("scamper.ping.payload")
-        chksum  = spec.get_parameter_value("scamper.ping.icmp.checksum")
+        payload = None#spec.get_parameter_value("scamper.ping.payload")
+        chksum  = None#spec.get_parameter_value("scamper.ping.icmp.checksum")
         dport   = spec.get_parameter_value("scamper.ping.dport")
         sport   = spec.get_parameter_value("scamper.ping.sport")
         ttl     = spec.get_parameter_value("scamper.ping.ttl")
-        pattern = spec.get_parameter_value("scamper.ping.pattern")
+        pattern = None#spec.get_parameter_value("scamper.ping.pattern")
         method  = spec.get_parameter_value("scamper.ping.method")
         rr      = spec.get_parameter_value("scamper.ping.rr")  
         size    = spec.get_parameter_value("scamper.ping.size")
@@ -849,18 +849,18 @@ class ScamperService(mplane.scheduler.Service):
         M          = spec.get_parameter_value("scamper.trace.M")
         loops      = spec.get_parameter_value("scamper.trace.loops")
         loopaction = spec.get_parameter_value("scamper.trace.loopaction")
-        payload    = spec.get_parameter_value("scamper.trace.payload")
+        payload    = None#spec.get_parameter_value("scamper.trace.payload")
         method     = spec.get_parameter_value("scamper.trace.method")
         attempts   = spec.get_parameter_value("scamper.trace.attempts")
         Q          = spec.get_parameter_value("scamper.trace.Q")
         sport      = spec.get_parameter_value("scamper.trace.sport")
-        srcaddr    = spec.get_parameter_value("scamper.trace.srcaddr")
+        srcaddr    = sipaddr#spec.get_parameter_value("scamper.trace.srcaddr")
         tos        = spec.get_parameter_value("scamper.trace.tos")
         T          = spec.get_parameter_value("scamper.trace.T")
         wait       = spec.get_parameter_value("scamper.trace.wait")
         waitprobe  = spec.get_parameter_value("scamper.trace.waitprobe")
-        #gssentry   = spec.get_parameter_value("scamper.trace.gssentry")
-        lssname    = spec.get_parameter_value("scamper.trace.lssname")     
+        gssentry   = None#spec.get_parameter_value("scamper.trace.gssentry")
+        lssname    = None#spec.get_parameter_value("scamper.trace.lssname")     
 
         #launch probe
         if spec.has_parameter("destination.ip4"):

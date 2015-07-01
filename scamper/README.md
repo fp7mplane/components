@@ -70,7 +70,7 @@ ok
 mPlane client shell (rev 20.1.2015, sdk branch)
 Type help or ? to list commands. ^D to exit.
 
-|mplane| $
+|mplane| 
 ```
 
 Now, depending on whether or not you have IPv4 and/or IPv6 access, you should the according capabilities when typing `listcap`:
@@ -168,6 +168,52 @@ result: measure
                     scamper.tracebox.hop.ip4: 208.97.177.124
             scamper.tracebox.hop.modifications: +TCP::Options::MSS
 
-
-
 ```
+
+##Default Values
+Certain capabilities will asks for a lot parameters, here are the values to specifiy if you don't know. Not all capabilities are listed here, those not listed involves less parameters or documentation can be found by typing `man scamper` in the related section:
+
+#ping
+
+- scamper.ping.dport = 80
+- scamper.ping.method = icmp-echo
+- scamper.ping.rr = 0
+- scamper.ping.size = 84
+- scamper.ping.sport = 33
+- scamper.ping.tos = 0
+- scamper.ping.ttl = 6
+
+#trace
+
+- scamper.trace.M = 0
+- scamper.trace.Q = 0
+- scamper.trace.T = 0
+- scamper.trace.attempts = 2
+- scamper.trace.confidence = 95
+- scamper.trace.dport = 33435
+- scamper.trace.firsthop = 1
+- scamper.trace.gapaction = 1
+- scamper.trace.gaplimit = 5
+- scamper.trace.loopaction = 0
+- scamper.trace.loops = 1
+- scamper.trace.maxttl = 255
+- scamper.trace.method = UDP-paris
+- scamper.trace.sport = 33436
+- scamper.trace.tos = 0
+- scamper.trace.wait = 5
+- scamper.trace.waitprobe = 0
+
+#tracelb
+
+- scamper.tracelb.attempts = 2
+- scamper.tracelb.confidence = 95
+- scamper.tracelb.dport = 33435
+- scamper.tracelb.firsthop = 1
+- scamper.tracelb.gaplimit = 5
+- scamper.tracelb.maxprobec = 3000
+- scamper.tracelb.method = udp-dport
+- scamper.tracelb.sport = 33436
+- scamper.tracelb.tos = 0
+- scamper.tracelb.waitprobe = 5
+- scamper.tracelb.waittimeout = 0
+
