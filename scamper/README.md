@@ -2,16 +2,16 @@
 
 The Scamper probe setup consists of 3 main parts:
 
-- Scamper source - C measurement module, available on the Components GitHub (<https://github.com/fp7mplane/components/scamper/>). It's a parallelised packet-prober capable of large-scale Internet measurement using many different measurement techniques.
-- mPlane protocol Reference Implementation - Available on GitHub, Component-based framework written in Python to enable cooperation of mPlane compliant devices.
-- Scamper probe - mPlane SDK interface, available on GitHub. Python interface connecting the Scamper probe to the mPlane.
+- Scamper source - C measurement module, available on the Components GitHub (<https://github.com/fp7mplane/components/tree/master/scamper/source>). It's a parallelised packet-prober capable of large-scale Internet measurement using many different measurement techniques.
+- mPlane protocol Reference Implementation - Available on GitHub (<https://github.com/fp7mplane/protocol-ri>), Component-based framework written in Python to enable cooperation of mPlane compliant devices.
+- Scamper probe - mPlane SDK interface, available on GitHub (<https://github.com/fp7mplane/components/tree/master/scamper>). Python interface connecting the Scamper probe to the mPlane.
 
 ##Installing Scamper
 Prerequisite for the C module:
 
 Scamper should compile and run under FreeBSD, OpenBSD, NetBSD, Linux, MacOS X, Solaris, Windows, and DragonFly. Not all of scamper will run on all systems: for example, the sting and tbit modules currently require IPFW, which is found on FreeBSD and MacOS X. All releases of scamper are licensed under the GPL v2.
 
-Scamper sources are available at <https://github.com/fp7mplane/components/scamper/source/>.
+Scamper sources are available at <https://github.com/fp7mplane/components/tree/master/scamper/source>.
 
 ```
 $ ./configure
@@ -46,13 +46,13 @@ sudo python3 -m mplane.component --config ./conf/component.conf
 
 First, run the supervisor:
 ```
-ko@ko-N76VJ:~/protocol-ri# python3 -m mplane.supervisor --config ./conf/supervisor.conf
+ko@host:~/protocol-ri# python3 -m mplane.supervisor --config ./conf/supervisor.conf
 
 ```
 
 In another terminal, run the Scamper probe component (NOTE: Certain capabilities need Scamper probe to be run as root because of the use of raw/link-layer sockets). The probe component should register to the supervisor and output the registration status:
 ```
-ko@ko-N76VJ:~/protocol-ri# sudo python3 -m mplane.component --config ./conf/scamper.conf
+ko@host:~/protocol-ri# sudo python3 -m mplane.component --config ./conf/scamper.conf
 Added <Service for <capability: measure (tracebox-standard-ip4) when now ... future token 7faab371 schema 3c5e225e p/m/r 2/3/2>>
 Added <Service for <capability: measure (tracebox-specific-ip4) when now ... future token 055c06f7 schema 720d393b p/m/r 5/3/2>>
 ...
@@ -65,7 +65,7 @@ Checking for Specifications...
 ```
 Then, run a clientshell in another terminal to run measurements:
 ```
-ko@ko-N76VJ:~/protocol-ri#  python3 -m mplane.clientshell --config ./conf/client.conf
+ko@host:~/protocol-ri#  python3 -m mplane.clientshell --config ./conf/client.conf
 ok
 mPlane client shell (rev 20.1.2015, sdk branch)
 Type help or ? to list commands. ^D to exit.
