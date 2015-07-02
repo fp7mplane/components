@@ -8,10 +8,10 @@ The code for the bash version is in fastping/fastpingBash (in the components Git
 
 Copy files from the Fastping mPlane interface (from the components GitHub) into protocol-ri/:
 
-    - `registry.json` The registry.json file, copy it into protocol-ri/mplane/.
-    - `fastping.py` The Python interface, copy it into protocol-ri/mplane/components/.
-    - `fastping.conf` The fastPing config file, copy it into protocol-ri/mplane/components/.
-    - `supervisor.conf` and `client.conf`, The configuration file, copy them into protocol-ri/conf/.
+- `registry.json` The registry.json file, copy it into protocol-ri/mplane/.
+- `fastping.py` The Python interface, copy it into protocol-ri/mplane/components/.
+- `fastping.conf` The fastPing config file, copy it into protocol-ri/mplane/components/.
+- `supervisor.conf` and `client.conf`, The configuration file, copy them into protocol-ri/conf/.
 
 
 ## 2. Launching the probe
