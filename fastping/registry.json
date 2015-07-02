@@ -566,36 +566,24 @@
       "prim": "string"
     },
     {
-      "name": "anycast",
-      "prim": "boolean"
-    },
-    {
-      "name": "anycast_geolocation",
-      "prim": "string"
-    },
-    {
-      "name": "anycast_enumeration",
-      "prim": "string"
-    },
-{
       "name": "destinations.ip4",
       "prim": "string",
-      "desc": "List of ip target"
+      "desc": "Fastping: List of ip target"
     },
     {
       "name": "file.list",
       "prim": "string",
-      "desc": "List of the uploaded file"
+      "desc": "Fastping: List of the uploaded file"
     },
     {
       "name": "cycleduration.s",
       "prim": "natural",
-      "desc": "Duration of the cycle"
+      "desc": "Fastping: Duration of the cycle"
     },
     {
       "name": "numberCycle",
       "prim": "natural",
-      "desc": "Number of cycles, -1 continuous measurements"
+      "desc": "Fastping: Number of cycles, -1 continuous measurements"
     },
     {
       "name": "ftp.ip4",
@@ -610,7 +598,7 @@
     {
       "name": "ftp.user",
       "prim": "string",
-      "desc": "Ftp user"
+      "desc": "Ftp username"
     },
     {
       "name": "ftp.password",
@@ -625,7 +613,7 @@
     {
       "name": "ftp.ispsv",
       "prim": "boolean",
-      "desc": "Passive/active ftp mode"    
+      "desc": "Passive/active ftp mode"
     }
   ]
 }

@@ -567,65 +567,18 @@
     },
     {
       "name": "anycast",
-      "prim": "boolean"
+      "prim": "boolean",
+      "desc": "Assertion (or negation) that an ip is anycast"
     },
     {
       "name": "anycast_geolocation",
-      "prim": "string"
+      "prim": "string",
+      "desc": "List of anycast instances(city,country,latitude city,longitude city)"
     },
     {
       "name": "anycast_enumeration",
-      "prim": "string"
-    },
-{
-      "name": "destinations.ip4",
-      "prim": "string",
-      "desc": "List of ip target"
-    },
-    {
-      "name": "file.list",
-      "prim": "string",
-      "desc": "List of the uploaded file"
-    },
-    {
-      "name": "cycleduration.s",
       "prim": "natural",
-      "desc": "Duration of the cycle"
-    },
-    {
-      "name": "numberCycle",
-      "prim": "natural",
-      "desc": "Number of cycles, -1 continuous measurements"
-    },
-    {
-      "name": "ftp.ip4",
-      "prim": "string",
-      "desc": "Ftp server address"
-    },
-    {
-      "name": "ftp.port",
-      "prim": "string",
-      "desc": "Port ftp server"    
-    },
-    {
-      "name": "ftp.user",
-      "prim": "string",
-      "desc": "Ftp user"
-    },
-    {
-      "name": "ftp.password",
-      "prim": "string",
-      "desc": "Ftp password"    
-    },
-    {
-      "name": "ftp.currdir",
-      "prim": "string",
-      "desc": "Ftp directory"
-    },
-    {
-      "name": "ftp.ispsv",
-      "prim": "boolean",
-      "desc": "Passive/active ftp mode"    
+      "desc": "Number of anycast instances"
     }
   ]
 }
