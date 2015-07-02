@@ -9,10 +9,12 @@ anycast_data= [path with anycast data]
 ```
 
 Copy files from the Anycast mPlane interface (from the components GitHub) into protocol-ri/:
+
     - `registry.json` The registry.json file, copy it into protocol-ri/mplane/.
     - `anycast.py` The Python interface, copy it into protocol-ri/mplane/components/.
     - `anycast.conf` The Anycast config file, copy it into protocol-ri/mplane/components/.
     - `supervisor.conf`  and `client.conf` The configuration file, copy them into protocol-ri/conf/.
+    
 
 ## 2. Launching the probe
 ----------------------------------------
