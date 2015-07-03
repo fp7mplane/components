@@ -300,6 +300,7 @@ class tStatExporterService(mplane.scheduler.Service):
         while (datetime.utcnow() <= end_time):
             if check_interrupt():
                 break
+            sleep(0.5)
         if process is not None:
             parent = psutil.Process(process.pid)
             for child in parent.children(recursive=True):
