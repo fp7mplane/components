@@ -94,7 +94,6 @@ For the sake of the example, the following command launches a specification for 
          set period.s 1
          set numberCycle 1
          set ftp.password ''
-         set ftp.ispsv False
          set ftp.port 21
          set ftp.ip4 127.0.0.1
          set ftp.currdir up
