@@ -4,7 +4,7 @@
 ----------------------------------------
 
 Install fastPing required python2
-The code for the bash version is in fastping/fastpingBash (in the components GitHub), for more information about the bash version refer to the D2.2. 
+The code for the bash version is in fastping/fastpingBash (in the components GitHub), for more information about the bash version refer to the D2.2 or to the [software description](http://www.ict-mplane.eu/public/fastping).
 
 Copy files from the Fastping mPlane interface (from the components GitHub) into protocol-ri/:
 
@@ -19,16 +19,27 @@ Copy files from the Fastping mPlane interface (from the components GitHub) into 
 
 In a terminal window start supervisor:
 ```
-cd ~/protocol-ri 
+cd ~/protocol-ri
+python3 -m scripts/mpsup --config ./conf/supervisor.conf
+```
+alternatively:
+```
+cd ~/protocol-ri
 python3 -m mplane.supervisor --config ./conf/supervisor.conf
 ```
 
-In another terminal start the fastPing probe as a component:
 
+In another terminal start the fastPing probe as a component:
+```
+cd ~/protocol-ri
+sudo python3 -m scripts/mpcom --config ./conf/fastping.conf
+```
+alternatively:
 ```
 cd ~/protocol-ri
 sudo python3 -m mplane.component --config ./conf/fastping.conf
 ```
+
 The expected output should be:
 ```
 Added <Service for <capability: measure (fastping-ip4) when now ... future / 1s token e7735f25 schema 2f2af5dc p/m/r 11/0/1>>
@@ -51,7 +62,11 @@ Added <Service for <capability: measure (callback) when now ... future token c85
 Start a client to test the component:
 
 ```
-python3 -m mplane.clientshell --config mplane/components/fastping/client.conf 
+python3 -m scripts/mpcli --config mplane/components/fastping/client.conf
+```
+alternatively:
+```
+python3 -m mplane.clientshell --config mplane/components/fastping/client.conf
 ```
 
 The expected output should be:
@@ -69,7 +84,9 @@ Now check that the fastping capability is registered:
 Capability fastping-ip4 (token e7735f25459c4e7efc0a1fcba7e9e5ee)
 ```
 
-To start a 10 seconds experiment, single shot with 8.8.8.8 as destination, expecting results to be uploaded to a FTP server, type in the client shell: 
+Fastping as the name implies is aimed at large-scale measurement. It follows that a large quantity of data is generated in a short time, making indirect export the preferred way to report measurement data. In case the results are needed in band (i.e., within the same TCP connection), then the simpler mplane-ping probe is a better candidate.
+
+For the sake of the example, the following command launches a specification for an experiment lasting 10 seconds, using 8.8.8.8 as destination and probing it 10 times during the measurement, finally uploading results to a FTP server via:
 ```
 |mplane| when now + 1s / 10s
          set destinations.ip4 8.8.8.8
@@ -90,16 +107,16 @@ source.ip4 = 1.2.3.4
 ok
 ```
 
-When the experiment is over, for see the result: 
+When the experiment is over, for see the result:
 
 ```
-|mplane| showmeas fastping-ip4-
-0result: measure
+|mplane| showmeas fastping-ip4-0
+result: measure
     label       : fastping-ip4-0
     token       : 3951f51b68bedf7e91ac4fb7bc7485e6
     when        : 2015-07-01 17:52:36.507573 ... 2015-07-01 17:52:58.694320
     registry    : http://ict-mplane.eu/registry/core
-    parameters  (11): 
+    parameters  (11):
                              numberCycle: 1
                              ftp.currdir: up
                             ftp.password: ''
@@ -117,8 +134,8 @@ When the experiment is over, for see the result:
 ```
 
 
-The fastping probes supports the setup of more complex experiments:
-    
+The fastping probes supports the setup of more complex experiments via a plural  "destinations" keyword supporting a flexible syntax examplified as follows:
+
 - specify multiple hosts
 
 ```
@@ -138,4 +155,4 @@ set destinations.ip4 8.8.0.0/24 137.194.0.0/24
 ```
 set destinations.ip4 8.8.0.0/24 8.8.8.8 137.194.0.0/24
 ```
-
+Fastping has been used in the anycast measurement campaign, for more information and results at a glance [anycast project](http://www.infres.enst.fr/~drossi/anycast) 
