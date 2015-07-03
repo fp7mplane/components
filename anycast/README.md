@@ -155,4 +155,4 @@ set destinations.ip4 8.8.0.0/24 137.194.0.0/24
 ```
 set destinations.ip4 8.8.0.0/24 8.8.8.8 137.194.0.0/24
 ```
-Fastping has been used in the anycast campaign measurement, for more information and results at a glance [anycast project](http://www.infres.enst.fr/~drossi/anycast) 
+Fastping has been used in the anycast measurement campaign, for more information and results at a glance [anycast project](http://www.infres.enst.fr/~drossi/anycast) 
