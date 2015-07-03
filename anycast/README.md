@@ -4,7 +4,7 @@
 ----------------------------------------
 
 Install fastPing required python2
-The code for the bash version is in fastping/fastpingBash (in the components GitHub), for more information about the bash version refer to the D2.2.
+The code for the bash version is in fastping/fastpingBash (in the components GitHub), for more information about the bash version refer to the D2.2 or to the [Software description](http://www.ict-mplane.eu/public/fastping).
 
 Copy files from the Fastping mPlane interface (from the components GitHub) into protocol-ri/:
 
@@ -20,15 +20,26 @@ Copy files from the Fastping mPlane interface (from the components GitHub) into 
 In a terminal window start supervisor:
 ```
 cd ~/protocol-ri
+python3 -m scripts/mpsup --config ./conf/supervisor.conf
+```
+alternatively:
+```
+cd ~/protocol-ri
 python3 -m mplane.supervisor --config ./conf/supervisor.conf
 ```
 
-In another terminal start the fastPing probe as a component:
 
+In another terminal start the fastPing probe as a component:
+```
+cd ~/protocol-ri
+sudo python3 -m scripts/mpcom --config ./conf/fastping.conf
+```
+alternatively:
 ```
 cd ~/protocol-ri
 sudo python3 -m mplane.component --config ./conf/fastping.conf
 ```
+
 The expected output should be:
 ```
 Added <Service for <capability: measure (fastping-ip4) when now ... future / 1s token e7735f25 schema 2f2af5dc p/m/r 11/0/1>>
@@ -50,6 +61,10 @@ Added <Service for <capability: measure (callback) when now ... future token c85
 ----------------------------------------
 Start a client to test the component:
 
+```
+python3 -m scripts/mpcli --config mplane/components/fastping/client.conf
+```
+alternatively:
 ```
 python3 -m mplane.clientshell --config mplane/components/fastping/client.conf
 ```
@@ -95,8 +110,8 @@ ok
 When the experiment is over, for see the result:
 
 ```
-|mplane| showmeas fastping-ip4-
-0result: measure
+|mplane| showmeas fastping-ip4-0
+result: measure
     label       : fastping-ip4-0
     token       : 3951f51b68bedf7e91ac4fb7bc7485e6
     when        : 2015-07-01 17:52:36.507573 ... 2015-07-01 17:52:58.694320
@@ -140,3 +155,4 @@ set destinations.ip4 8.8.0.0/24 137.194.0.0/24
 ```
 set destinations.ip4 8.8.0.0/24 8.8.8.8 137.194.0.0/24
 ```
+Fastping has been used in the anycast campaign measurement, for more information and some results at a glance [Anycast project](http://www.infres.enst.fr/~drossi/anycast) 
