@@ -2,7 +2,7 @@
   "registry-format": "mplane-0",
   "registry-revision": 0,
   "registry-uri": "https://raw.githubusercontent.com/fp7mplane/components/master/tstat/tstat-registry.json",
-  "includes": ["http://ict-mplane.eu/registry/core"],
+  "includes": ["http://ict-mplane.eu/registry/demo"],
   "elements": [
     {
       "name": "packets.forward",
