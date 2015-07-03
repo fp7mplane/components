@@ -4,7 +4,7 @@
 ----------------------------------------
 
 Install fastPing required python2
-The code for the bash version is in fastping/fastpingBash (in the components GitHub), for more information about the bash version refer to the D2.2 or to the [Software description](http://www.ict-mplane.eu/public/fastping).
+The code for the bash version is in fastping/fastpingBash (in the components GitHub), for more information about the bash version refer to the D2.2 or to the [software description](http://www.ict-mplane.eu/public/fastping).
 
 Copy files from the Fastping mPlane interface (from the components GitHub) into protocol-ri/:
 
@@ -155,4 +155,4 @@ set destinations.ip4 8.8.0.0/24 137.194.0.0/24
 ```
 set destinations.ip4 8.8.0.0/24 8.8.8.8 137.194.0.0/24
 ```
-Fastping has been used in the anycast campaign measurement, for more information and some results at a glance [Anycast project](http://www.infres.enst.fr/~drossi/anycast) 
+Fastping has been used in the anycast campaign measurement, for more information and results at a glance [anycast project](http://www.infres.enst.fr/~drossi/anycast) 
