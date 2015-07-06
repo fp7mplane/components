@@ -1,0 +1,38 @@
+{
+  "registry-format": "mplane-0",
+  "registry-revision": 0,
+  "registry-uri": "https://github.com/fp7mplane/components/ott-probe/registry.json",
+  "includes": "http://www.ict-mplane.eu/registry/core",
+  "elements": [
+    {
+      "name": "http.code.max",
+      "prim": "natural",
+      "desc": "The maximal value of the HTTP result code during the test"
+    },
+    {
+      "name": "http.redirectcount.max",
+      "prim": "natural",
+      "desc": "Peak of HTTP redirects during the transaction."
+    },
+    {
+      "name": "qos.manifest",
+      "prim": "natural",
+      "desc": "Indicating the peak of the errorcode with respect the manifest descriptor"
+    },
+    {
+      "name": "qos.content",
+      "prim": "natural",
+      "desc": "Indicating the peak of the errorcode with respect the content"
+    },
+    {
+      "name": "qos.aggregate",
+      "prim": "natural",
+      "desc": "The minimum of the content and the manifest quality."
+    },
+    {
+      "name": "qos.level",
+      "prim": "natural",
+      "desc": "Quality level expressed in percents."
+    }
+  ]
+}
