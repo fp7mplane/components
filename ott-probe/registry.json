@@ -1,7 +1,7 @@
 {
   "registry-format": "mplane-0",
   "registry-revision": 0,
-  "registry-uri": "https://github.com/fp7mplane/components/ott-probe/registry.json",
+  "registry-uri": "https://github.com/fp7mplane/components/tree/master/ott-probe/registry.json",
   "includes": "http://www.ict-mplane.eu/registry/core",
   "elements": [
     {
