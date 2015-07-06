@@ -28,7 +28,6 @@ def check_directory(path):
     if os.access(path, os.F_OK):
         if not os.path.isdir(path):
             log.critical("Path '%s' exists and is not a directory" % path)
-    
     # Create directory if necessary
     else:
         try:

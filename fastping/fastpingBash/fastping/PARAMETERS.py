@@ -1,6 +1,6 @@
 class Parameters():
    
-    def __init__(self,deltaM=10,ping_freq=1,MAX_CYCLE=1,target="iplist.dat",lowerUpper=[0,-1],filepath="./fastpingBash/",saveRaw=True,saveCycleSummary=False,saveStat=False,saveQD=False,upload=False,queuingDelay=[0.0,2.0,0.01],ftp=["127.0.0.1","anonymous","",21,"up",False]):
+    def __init__(self,deltaM=10,ping_freq=1,MAX_CYCLE=1,target="iplist.dat",lowerUpper=[0,-1],filepath="./fastPingBash/",saveRaw=True,saveCycleSummary=False,saveStat=False,saveQD=False,upload=False,queuingDelay=[0.0,2.0,0.01],ftp=["127.0.0.1","anonymous","",21,"up",False]):
      #-----------------------------------------------   
         # SERVER SETTINGS   
 	"""
@@ -20,13 +20,14 @@ class Parameters():
         self.curr_dir   = "up"
         self.is_pasv    = False      
     """    
+
         self.ftp_server = ftp[0]
         self.user       = ftp[1]
         self.pwd        = ftp[2]
         self.port       = ftp[3]
         self.curr_dir   = ftp[4]
         self.is_pasv    = ftp[5]      
-        
+       
 #-----------------------------------------------
         # MANAGER SETTINGS
         self.MANAGER_DEFAULTS = {"delta_M"   : deltaM,   # in seconds 300
@@ -45,11 +46,10 @@ class Parameters():
         self.SAVE_ST=saveStat
         self.SAVE_QD=saveQD
         self.Upload=upload
-        self.log=self.filePath+"fastping.log"    
+    
         # QUEUING DELAY [seconds]
         self.qd_lower = queuingDelay[0]
         self.qd_upper = queuingDelay[1]
         self.qd_interval = queuingDelay[2]
         self.qd_cyphers = len(str(self.qd_interval))-2
-        self.packet_size=58
 

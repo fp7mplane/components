@@ -56,7 +56,7 @@ class PingCycleOPT:
             log = logging.getLogger("agent.ping_cycle.preload")
             self.dests = DestList()
             #file_dest = open(self.iplist_file,'r')
-            with open(self.shared.parameters.filePath +'/iplist.dat') as f:
+            with open('iplist.dat') as f:
                 self.destination=[line.rstrip() for line in f]            
             try:
                 for dest_ip in self.destination:
@@ -200,7 +200,8 @@ class PingCycleOPT:
     #------------------------------------------------------------------------
             
     def send_one_ping(self,target,my_ID,seq):
-        #self.message="ow.ly/wPjH6"
+        self.message="You are receiving this packet because you are participating in a research study for more information please visit:http://www.ict-mplane.eu/"
+
         # HEADER -> type (8bit), code (8bit), checksum (16bit), id (16bit), sequence (16bit)
         my_checksum = 0
         rdm_ID = random.randint(1, 65535) & 65535
@@ -209,11 +210,11 @@ class PingCycleOPT:
         bytesInDouble = struct.calcsize('d')                                                    # SEND_TIME field size 
         bytesInInt = struct.calcsize('i')                                                       # ID field size
         #data = (self.PACKET_SIZE - len(header) - 2*bytesInInt - bytesInDouble) * 'x'            # fill remaining pkt with 'x'
-        data = (self.shared.parameters.packet_size - len(header) - 2*bytesInInt - bytesInDouble) * 'x'
+        #data=self.message #aggiunto si puo mettere direttamente al posto di data
         start = time.time()
-       
-        data = struct.pack('i',my_ID) + struct.pack('i', self.countCycle) + struct.pack('d', start)+data 
-        #data = struct.pack('i',my_ID) + struct.pack('i', self.countCycle) + struct.pack('d', start) + self.message
+
+        #data = struct.pack('i',my_ID) + struct.pack('i', self.countCycle) + struct.pack('d', start) + data
+        data = struct.pack('i',my_ID) + struct.pack('i', self.countCycle) + struct.pack('d', start)+self.message
         # CALCULATE data checksum and dummy header.
         my_checksum = self.checksum(header + data)
 
@@ -224,8 +225,7 @@ class PingCycleOPT:
         # SEND PACKET
         while packet:
             sent = self.socket.sendto(packet,(target, 1))
-            packet = packet[sent:]  
-                 
+            packet = packet[sent:]        
             
     #----------------------------------------------------------------------------------------#
     def checksum(self,source_string):

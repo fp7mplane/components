@@ -14,6 +14,7 @@ class ThreadUploader (threading.Thread):
         self.name = name
         self.shared=shared
         self.upload=UploaderOPT()        
+        logging.basicConfig(filename='fastPing.log',level=logging.INFO, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
         self.event=event
        
    

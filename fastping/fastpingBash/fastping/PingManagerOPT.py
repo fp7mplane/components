@@ -73,13 +73,8 @@ class PingManagerOPT():
                     
                 else:
                     log.error("Too many failures, aborting API calls.")
-                print "Socket error, for more information check the log."    
-                #-------------------change with a function, we use the same in fastping.py-------------------            
+                print "Error: Socket error, for more information check the log."                
                 self.shared.sender.event.set() #killing:exception open socket
-                self.shared.uploaderCondition.acquire()                                
-                self.shared.uploaderCondition.notifyAll() #wake up thread blocked on wait               
-                self.shared.uploaderCondition.release()
-                
             # CREATE PING_CYCLE_OPT and LISTENER
             self.cycle = PingCycleOPT(self.shared, self.delta_M,self.ping_freq, self.shared.socket) #preload
            
@@ -90,7 +85,7 @@ class PingManagerOPT():
             # SYNCHRONIZATION
             #wait_time = random.randint(1,int(self.delta_M.seconds/3))                               # RANDOM WAIT
             #---------------------------AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-            wait_time=0 #manage wait time with the number of probe            
+            wait_time=1            
             log.info("PingCycle synchronization - SLEEP: %f s" % wait_time)
             
             if(self.shared.sender.event.wait(wait_time)): #Reentrant lock: if there is a set, it will unlock and it will return true
@@ -230,3 +225,7 @@ class PingManagerOPT():
         self.MAX_CYCLE  = int(self.manager.get("MAX_CYCLE"))
 
     #----------------------------------------------------------------------
+    """
+    def dump(self):
+        return self.cycle.dump()
+    """

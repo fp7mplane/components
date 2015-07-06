@@ -20,13 +20,15 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from datetime import datetime
+from datetime import *
 from time import sleep
 import os
 import configparser
 import mplane.model
 import mplane.scheduler
 import mplane.utils
+from multiprocessing import Process
+import psutil
 
 import subprocess
 from mplane.components.tstat.tstat_exporters import tstat_rrd_exporter
@@ -294,33 +296,38 @@ class tStatExporterService(mplane.scheduler.Service):
         self.rrd_path = tstat_rrd_path
         self.math_path = math_path
 
+    def wait_and_stop(self, end_time, check_interrupt, spec, process):
+        while (datetime.utcnow() <= end_time):
+            if check_interrupt():
+                break
+            sleep(0.5)
+        if process is not None:
+            parent = psutil.Process(process.pid)
+            for child in parent.children(recursive=True):
+                child.kill()
+            parent.kill()
+
+        return
+
     def run(self, spec, check_interrupt):
         """
         Execute this Service
 
         """
-
-        start_time = datetime.utcnow()
-        wait_time = spec._when.timer_delays()
-        wait_seconds = wait_time[1]
-        end_time = start_time
-        if wait_seconds != None:
-            if wait_seconds == 0: # Wait time is NOT inf
-                end_time = datetime.max
-                wait_seconds = (end_time - start_time).total_seconds()
-
-        (start_a , end_b) = spec._when.datetimes()
+        (start_time , end_time) = spec._when.datetimes()
+        duration = spec.when().duration().total_seconds()
 
         # crate the math code time format
-        time_format = start_a.strftime("%Y-%m-%dT%H:%M:%S")
+        time_format = start_time.strftime("%Y-%m-%dT%H:%M:%S")
 
+        process = None
         # check which capability family 
         if "tstat-log" in spec.get_label():
             # start measurement changing the tstat conf file
             self.change_conf(spec.get_label(), True)
 
         elif "tstat-exporter_rrd" in spec.get_label():
-            tstat_rrd_exporter.run(self, self.config, self.rrd_path, spec,  start_a )
+            process = tstat_rrd_exporter.run(self, self.config, self.rrd_path, spec,  start_time )
 
         elif "tstat-exporter_log" in spec.get_label():
             #The math executable for export log
@@ -329,7 +336,7 @@ class tStatExporterService(mplane.scheduler.Service):
             os.chdir(self.math_path)
             shell_command = 'exec ./math_probe --config math_probe.xml --repoUrl %s --startTime %s' % (repository_url,time_format)
             print ("Command : %s" %shell_command)
-            subp = subprocess.Popen(shell_command, stdout=subprocess.PIPE, shell=True)#, preexec_fn=os.setsid)
+            process = subprocess.Popen(shell_command, stdout=subprocess.PIPE, shell=True)#, preexec_fn=os.setsid)
             os.chdir(curr_dir)
 
         elif "tstat-exporter_streaming" in spec.get_label():
@@ -340,33 +347,31 @@ class tStatExporterService(mplane.scheduler.Service):
 
             repoip = spec.get_parameter_value("repo.url").split(":")[-2]
             repoport = spec.get_parameter_value("repo.url").split(":")[-1]
-            tstat_streaming_exporter.run(repoip, repoport, 
+
+            process = Process(target=tstat_streaming_exporter.run, args=[repoip, repoport, 
                 spec.get_parameter_value("log.type"),
                 spec.get_parameter_value("log.time"),
                 spec.get_parameter_value("log.folder"),
                 start_time,
-                wait_seconds)
+                duration])
+            process.start()
         else:
             raise ValueError("Capability family doesn't exist")
 
-        # wait for specification execution
-        if wait_seconds != None:
-            if end_time != datetime.max: # Wait time is NOT inf
-                sleep(wait_seconds)
-                end_time = datetime.utcnow()
-                if "tstat-log" in spec.get_label():
-                    # terminate measurement changing the tstat conf file
-                    self.change_conf(spec.get_label(), False)
-                elif "tstat-exporter_rrd" in spec.get_label() :
-                    tstat_rrd_exporter.change_conf_indirect_export(spec, False)
-                elif "tstat-exporter_log" in spec.get_label() :
-                    print("The killing of process Disabled !")
-                    # FIXME here we assume that we can not stop the export log and it will continue forever
-                    #subp.kill()
-                    #os.killpg(subp.pid, signal.SIGTERM) 
+        self.wait_and_stop(end_time, check_interrupt, spec, process)
 
-            print("specification " + spec.get_label() + ": start(UTC) = " + str(start_time) + ", end(UTC) = " + str(end_time))
-            res = self.fill_res(spec, start_time, end_time)
+        # wait for specification execution
+        if "tstat-log" in spec.get_label():
+            # terminate measurement changing the tstat conf file
+            self.change_conf(spec.get_label(), False)
+        elif "tstat-exporter_streaming" in spec.get_label() :
+            print("tstat-exporter_streaming Disabled \n")
+        elif "tstat-exporter_rrd" in spec.get_label() :
+            print("tstat-exporter_rrd Disabled \n")
+        elif "tstat-exporter_log" in spec.get_label() :
+            print("tstat-exporter_log Disabled \n")
+
+        res = self.fill_res(spec, start_time, end_time)
 
         return res
 

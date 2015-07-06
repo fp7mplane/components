@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import logging
 from PingManagerOPT import PingManagerOPT 
 import threading,sys
 
@@ -12,6 +13,7 @@ class ThreadSender (threading.Thread):
         self.shared=shared
         self.ping=PingManagerOPT(shared)
         self.cond= 'ping'
+        logging.basicConfig(filename='fastPing.log',level=logging.DEBUG, format='%(asctime)s %(name)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
         self.event=event
 
     

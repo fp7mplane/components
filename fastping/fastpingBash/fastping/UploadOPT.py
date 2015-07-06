@@ -15,29 +15,37 @@ class UploadOPT():
         err = {}
 
         try:
+            
+            print self.shared.parameters.ftp_server
+            print self.shared.parameters.port
+            print self.shared.parameters.user
+            print self.shared.parameters.pwd
             # s = ftplib.FTP(cfg['FTP_SERVER'], cfg['USERNAME'], cfg['PASSWORD'])
             s = ftplib.FTP()
             s.connect(self.shared.parameters.ftp_server,self.shared.parameters.port)     #specify port number when connection
             s.login(self.shared.parameters.user,self.shared.parameters.pwd)
             s.set_pasv(self.shared.parameters.is_pasv)
-            s.cwd(self.shared.parameters.curr_dir)
+            try:
+                s.mkd(shared.parameters.curr_dir)
+            except: pass
+            s.cwd(shared.parameters.curr_dir)
             
         except Exception, why:
             for filename in filenames:
-                err[filename] = "Could not connect to FTP server: %s" % why
+                err[filename] = "Error: Could not connect to FTP server: %s" % why
+            print  err[filename]
             return err
-
-        for filename in filenames:
-            fp = None
-            try:
+        try:
+            for filename in filenames:
+                #fp = None
                 print "result: "+os.path.basename(filename)
-                 
                 fp = open(filename, 'rb')
                 s.storbinary('STOR %s' % os.path.basename(filename), fp)
-            except Exception, why:
-                err[filename] = "Error uploading file %s: " % why
-            finally:
-                if fp: fp.close()
+        except Exception, why:
+            err[filename] = "Error: uploading file %s: " % why
+            print  "Error: "+err[filename]
+        finally:
+            if fp: fp.close()
 
         try:
             s.quit()

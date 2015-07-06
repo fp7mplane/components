@@ -69,7 +69,7 @@ class PingListener():
         self.start = time.time()
         self.old = 0
         self.out = 0
-        self.count=0#delete
+        self.count=0
  #------------------------------------------------------------------------
  # State 01: Initialize
  #------------------------------------------------------------------------
@@ -89,27 +89,28 @@ class PingListener():
  #------------------------------------------------------------------------
  # State 02: State Listen
  #------------------------------------------------------------------------
-    def state_listen(self):     
-        
+    def state_listen(self):      
         try:
                     log = logging.getLogger('agent.ping_listener.listen')
             
             #whatReady = select.select([self.shared.socket], [], [],3) # 3 seconds timeout understand more!                   
             #if whatReady[0] != []:
                 #for skt in whatReady[0]:     
-                   
+                    
                     skt= self.shared.socket 
-                    # get datas
-                    (recPacket, addr) = skt.recvfrom(self.shared.parameters.packet_size)
                     timeReceived = time.time()
+                    # get datas
+                    (recPacket, addr) = skt.recvfrom(150)
                     icmpHeader = recPacket[20:28]
                     (type, code, checksum, packetID, sequence) = struct.unpack('bbHHh', icmpHeader)
+                    
                     bytesInInt = struct.calcsize('i')
                     bytesInDouble = struct.calcsize('d')
-                   
+                    
                     # VALID ANSWER                
                     if type == 0:
-                        dest = None                    
+                        dest = None
+                                                
                         try:
                             targetID = struct.unpack('i', recPacket[28:28 + bytesInInt])[0]
                             dest = self.shared.destList.get_target(targetID)
@@ -122,9 +123,7 @@ class PingListener():
                             self.timeSent=struct.unpack('d', recPacket[28 + 2*bytesInInt:28 + 2*bytesInInt + bytesInDouble])[0]
                             aRTT = timeReceived-timeSent 
                             ttl = struct.unpack('b',recPacket[8:9])[0]
-                            if(aRTT<0):                            
-                                print aRTT
-
+                           
                             # OLD CYCLE PACKET
                             if self.countCycle == 1 or (nCycle == self.countCycle-1):
                                 self.old_stats.update_rcvd(targetID,aRTT,ttl,timeReceived)
@@ -178,9 +177,8 @@ class PingListener():
                     
                     log.info("State02: received correct")
         except Exception,e:
-            
             #log.error("%s" % e)
-            log.error("%s" % e)       
+            log.error("Socket Closed")       
         log.info("State 02 finished")
         return 'listen'
  
