@@ -7,12 +7,12 @@ The Tstat probe setup consists of 3 main parts:
 - Tstat probe - mPlane SDK interface, available [here](<https://github.com/fp7mplane/components/tree/master/tstat>). Python interface connecting the Tstat probe to the mPlane.
 
 ##Installing Tstat
-Download the latest source code [tarball](http://tstat.polito.it/download/tstat-latest.tar.gz).
+Download the source code from [tstat](http://tstat.polito.it/download/tstat-latest.tar.gz).
 Optional prerequisites for the C module:
 - zlib
 - rrdtool
 
-Tstat should compile and run under any Unix-based systems. To compile it, run:
+Tstat should compile and run under Unix-based systems.
 
 ```
 $ ./autogen.sh
@@ -173,8 +173,15 @@ NOTE: To reset the scheduling option `when` you might need to run:
 ## Activating indirect log and rrd exporting:
 Currently the proxy offers three different indirect exporting approaches
 
-The first one enables the streaming of logs which are collected in real-time by Tstat.
-The code contained in file tstatrepository.py acts as a simple endpoint server which receives the streamed logs and print them to the stdout.
+1. Log bulk exporter
+2. Log streaming exporter
+3. RRD exporter
+
+
+### Activating log streaming exporter:
+
+This exporter enables the streaming of logs which are collected in real-time by Tstat.
+The code contained in file `tstatrepository.py` acts as a simple endpoint server which receives the streamed logs and print them to the stdout.
 
 For instance, to activate the streaming indirect export of log_tcp_complete for 1 day, run in the client:
 
