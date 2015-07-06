@@ -165,23 +165,6 @@ def run(self, config, path, spec, start):
     global proc 
     proc = multiprocessing.Process(target=indirect_export, args=[self, tls, path, spec, start, DEFAULT_RRD_INTERVAL])
     proc.deamon = True
-    change_conf_indirect_export(spec, True)
-
-
-def change_conf_indirect_export(spec, enable):
-
-    """
-    It start and terminate the process for Indirect RRD Export 
-        
-    """
-        
-    if enable == True:
-                    
-        if "tstat-exporter_rrd" in spec.get_label():
-            print("tstat-exporter_rrd Enabled \n")
-            proc.start()
-    else:
-        if "tstat-exporter_rrd" in spec.get_label():
-            print("tstat-exporter_rrd Disabled \n")
-            proc.terminate()
-
+    print("tstat-exporter_rrd Enabled \n")
+    proc.start()
+    return proc

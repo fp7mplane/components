@@ -327,7 +327,7 @@ class tStatExporterService(mplane.scheduler.Service):
             self.change_conf(spec.get_label(), True)
 
         elif "tstat-exporter_rrd" in spec.get_label():
-            tstat_rrd_exporter.run(self, self.config, self.rrd_path, spec,  start_time )
+            process = tstat_rrd_exporter.run(self, self.config, self.rrd_path, spec,  start_time )
 
         elif "tstat-exporter_log" in spec.get_label():
             #The math executable for export log
@@ -336,7 +336,7 @@ class tStatExporterService(mplane.scheduler.Service):
             os.chdir(self.math_path)
             shell_command = 'exec ./math_probe --config math_probe.xml --repoUrl %s --startTime %s' % (repository_url,time_format)
             print ("Command : %s" %shell_command)
-            subp = subprocess.Popen(shell_command, stdout=subprocess.PIPE, shell=True)#, preexec_fn=os.setsid)
+            process = subprocess.Popen(shell_command, stdout=subprocess.PIPE, shell=True)#, preexec_fn=os.setsid)
             os.chdir(curr_dir)
 
         elif "tstat-exporter_streaming" in spec.get_label():
@@ -364,13 +364,12 @@ class tStatExporterService(mplane.scheduler.Service):
         if "tstat-log" in spec.get_label():
             # terminate measurement changing the tstat conf file
             self.change_conf(spec.get_label(), False)
+        elif "tstat-exporter_streaming" in spec.get_label() :
+            print("tstat-exporter_streaming Disabled \n")
         elif "tstat-exporter_rrd" in spec.get_label() :
-            tstat_rrd_exporter.change_conf_indirect_export(spec, False)
+            print("tstat-exporter_rrd Disabled \n")
         elif "tstat-exporter_log" in spec.get_label() :
-            print("The killing of process Disabled !")
-            # FIXME here we assume that we can not stop the export log and it will continue forever
-            #subp.kill()
-            #os.killpg(subp.pid, signal.SIGTERM) 
+            print("tstat-exporter_log Disabled \n")
 
         res = self.fill_res(spec, start_time, end_time)
 
