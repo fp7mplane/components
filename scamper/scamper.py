@@ -952,12 +952,15 @@ class ScamperService(mplane.scheduler.Service):
 
         min_words = 3 if self._get_ipl else 2
 
-        for line in tb_output[2:]:
+        for i, line in enumerate(tb_output[2:]):
             pline=line.split()
             if pline[1] == "*":
                 tuples.append(TraceboxValue(pline[1], "", ""))
             elif len(pline)<=min_words:
-                tuples.append(TraceboxValue(pline[1], "", _detail_ipl(pline[2]) if self._get_ipl else ""))
+                if line == tb_output[-1]:
+                    tuples.append(TraceboxValue(pline[1], pline[2],""))
+                else:
+                    tuples.append(TraceboxValue(pline[1], "", _detail_ipl(pline[2]) if self._get_ipl else ""))
             else:
                 tuples.append(TraceboxValue(pline[1]," ".join(pline[min_words:]), _detail_ipl(pline[2]) if self._get_ipl else ""))
         return tuples
