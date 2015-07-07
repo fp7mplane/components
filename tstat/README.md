@@ -2,12 +2,12 @@
 
 The Tstat probe setup consists of 3 main parts:
 
-- [Tstat](<http://tstat.polito.it>) is a passive sniffer able to provide several insight on the traffic patterns at both the the network and transport levels.
+- [Tstat](<http://tstat.polito.it>) is a passive sniffer able to provide several insight on the traffic patterns at both the network and the transport levels.
 - mPlane protocol Reference Implementation - Available [here](<https://github.com/fp7mplane/protocol-ri>), Component-based framework written in Python to enable cooperation of mPlane compliant devices.
-- Tstat probe - mPlane SDK interface, available [here](<https://github.com/fp7mplane/components/tree/master/tstat>). Python interface connecting the Tstat probe to the mPlane.
+- Tstat probe - mPlane SDK interface, Available [here](<https://github.com/fp7mplane/components/tree/master/tstat>). Python interface connecting the Tstat probe to the mPlane.
 
 ##Installing Tstat
-Download the source code from [tstat](http://tstat.polito.it/download/tstat-latest.tar.gz).
+Download the source code from [Tstat](http://tstat.polito.it/download/tstat-latest.tar.gz).
 Optional prerequisites for the C module:
 - zlib
 - rrdtool
@@ -26,7 +26,7 @@ $ make install
 Tstat requires at least sudoer priviledges to run. Here is an example of how to launch it:
 
 ```
-$ sudo tstat -l -i eth0 -s tstat_output_logs -T tstat-conf/runtime.conf -R tstat-conf/rrd.conf -r ./rrdfiles/
+$ sudo tstat -l -i eth0 -s tstat_output_logs -T tstat-conf/runtime.conf -R tstat-conf/rrd.conf -r /rrdfiles/
 ```
 
 **-l**: enable live capture using libpcap
@@ -55,14 +55,14 @@ $ git clone https://github.com/fp7mplane/protocol-ri.git
 Move to the components folder, rename it and replace it with the github one.
 
 ```
-$ cd mplane/components
+$ cd protocol-ri/mplane/
 $ mv components components.orig (or rm -rf components)
 $ git clone https://github.com/fp7mplane/components/
-$ cd ../../
+$ cd ../
 ```
 
-Add to the `conf/supervisor.conf` the missing 
-capabilities below [Authorizations]: 
+Add to the `conf/supervisor.conf` the new supported
+capabilities listed below under [Authorizations]:
 
 ```
 tstat-log_http_complete = guest,admin
@@ -83,12 +83,14 @@ $ export PYTHONPATH=.
 $ ./scripts/mpsup --config ./conf/supervisor.conf
 ```
 
-##Running the tstat proxy
-Change the paths to Tstat's configuration files in `./mplane/components/tstat/conf/tstat.conf`:
+##Running the Tstat proxy
+Change the paths to Tstat's configuration files in `./mplane/components/tstat/conf/tstat.conf`. If you run the Tstat as mentioned above, change the paths to:
+
+NOTE: Install [Python-rrdtool](https://pypi.python.org/pypi/python-rrdtool/1.4.7) on the Tstat proxy machine.
 
 ```
-runtimeconf = /tmp/runtime.conf
-tstat_rrd_path = /tmp/rrdfiles/
+runtimeconf = PATH_TO_TSTAT/tstat-conf/runtime.conf
+tstat_rrd_path = /rrdfiles/
 ```
 
 Open a new terminal, move to the protocol-ri folder and run:
@@ -110,7 +112,10 @@ Added <Service for <capability: measure (tstat-exporter_log) when past ... futur
 
 
 ##Running the repository proxy
-Open a new terminal, move to the protocol-ri folder and run:
+Open a new terminal, First create a certificate for repository proxy based on [HOWTO.txt](https://github.com/fp7mplane/protocol-ri/blob/master/PKI/HOWTO.txt) (assign `Repository-Polito` as name for certificate to be compatible by default `tstatrepository.conf`).<br>
+Move to the `protocol-ri` folder and run:
+
+NOTE: The repository proxy expected that the [Graphite](http://graphite.wikidot.com/installation) and [DBStream](https://github.com/arbaer/dbstream) are running on default setting.
 
 ```
 $ export PYTHONPATH=.
@@ -123,7 +128,7 @@ Added <Service for <capability: measure (repository-collect_log) when past ... f
 ##Running the client
 Open a new terminal, move to the protocol-ri folder and run:
 
-``` 
+```
 $ export PYTHONPATH=.
 $ ./scripts/mpcli --config ./conf/client.conf
 ok
@@ -164,18 +169,29 @@ To activate the RRD collection forever, run:
 |when| = now + inf
 ```
 
-NOTE: To reset the scheduling option `when` you might need to run:
+NOTE: To reset the scheduling option `when` you need to run:
 
 ```
 |mplane| unset when
 ```
 
 ## Activating indirect log and rrd exporting:
-Currently the proxy offers three different indirect exporting approaches
+Currently the proxy offers three different indirect exporting approaches:
 
 1. Log bulk exporter
 2. Log streaming exporter
 3. RRD exporter
+
+### Activating Log bulk exporter:
+
+The Tstat proxy sends the log files which are collected by the Tstat to the repository proxy, Then the log files are stored in [DBStream](https://github.com/arbaer/dbstream).
+
+```
+|mplane| runcap tstat-exporter_log
+repository.url = localhost:3000
+ok
+```
+NOTE: The `repository.url` contains the IP address of the repository and the port value associated to `repository_log_port`.
 
 
 ### Activating log streaming exporter:
@@ -191,9 +207,25 @@ For instance, to activate the streaming indirect export of log_tcp_complete for 
 log.folder = /path/to/log/folder/
 log.time = 60
 log.type = log_tcp_complete
-repo.url = 127.0.0.1:9011
+repo.url = localhost:9001
 ok
 ```
 
-NOTE: the `repo.url` contains the IP address of the repository and the port value associated to `repository_streaming_port` in `tstatrepository.conf`.
+NOTE: The `repo.url` contains the IP address of the repository and the port value associated to `repository_streaming_port` in `tstatrepository.conf`.
+
+### Activating RRD exporter:
+
+The Tstat proxy sends the RRD files which are collected by the Tstat to the repository proxy, Then the RRD files are sent to the Graphite to store and graphically presente them.
+
+For instance, to activate the RRD indirect export form now to 1 hour, run in the client:
+
+```
+|mplane| runcap tstat-exporter_rrd
+|when| = now + 1h
+repository.url = localhost:9000
+ok
+```
+If the specification running without error the data will be visible on Graphite web interface.
+
+NOTE: The `repository.url` contains the IP address of the repository and the port value associated to `repository_rrd_port`.
 
