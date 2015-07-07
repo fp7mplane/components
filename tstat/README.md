@@ -23,7 +23,7 @@ $ make install
 
 ## Run Tstat
 
-Tstat requires at least sudoer priviledges to run. Here is an example of how to launch it:
+Tstat requires at least sudoer privileges to run. Here is an example of how to launch it:
 
 ```
 $ sudo tstat -l -i eth0 -s tstat_output_logs -T tstat-conf/runtime.conf -R tstat-conf/rrd.conf -r /rrdfiles/
@@ -175,14 +175,14 @@ NOTE: To reset the scheduling option `when` you need to run:
 |mplane| unset when
 ```
 
-## Activating indirect log and rrd exporting:
+## Activating indirect log and RRD exporting
 Currently the proxy offers three different indirect exporting approaches:
 
 1. Log bulk exporter
 2. Log streaming exporter
 3. RRD exporter
 
-### Activating Log bulk exporter:
+### Activating Log bulk exporter
 
 The Tstat proxy sends the log files which are collected by the Tstat to the repository proxy, Then the log files are stored in [DBStream](https://github.com/arbaer/dbstream).
 
@@ -194,7 +194,7 @@ ok
 NOTE: The `repository.url` contains the IP address of the repository and the port value associated to `repository_log_port`.
 
 
-### Activating log streaming exporter:
+### Activating log streaming exporter
 
 This exporter enables the streaming of logs which are collected in real-time by Tstat.
 The code contained in file `tstatrepository.py` acts as a simple endpoint server which receives the streamed logs and print them to the stdout.
@@ -213,9 +213,9 @@ ok
 
 NOTE: The `repo.url` contains the IP address of the repository and the port value associated to `repository_streaming_port` in `tstatrepository.conf`.
 
-### Activating RRD exporter:
+### Activating RRD exporter
 
-The Tstat proxy sends the RRD files which are collected by the Tstat to the repository proxy, Then the RRD files are sent to the Graphite to store and graphically presente them.
+The Tstat proxy sends the RRD files which are collected by the Tstat to the repository proxy, then the RRD files are sent to the Graphite to store and graphically present them.
 
 For instance, to activate the RRD indirect export form now to 1 hour, run in the client:
 
