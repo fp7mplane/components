@@ -161,7 +161,7 @@ class OttService(mplane.scheduler.Service):
         res.set_result_value("qos.content", errcode[1], 0)
         res.set_result_value("qos.aggregate", min(errcode), 0)
         res.set_result_value("qos.level", jsonO["qualityIndex.Max"], 0)
-        print(res)
+        # print(res)
         return res
       except:
         print("Unexpected error in run:", sys.exc_info())
