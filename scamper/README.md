@@ -50,7 +50,7 @@ ko@host:~/protocol-ri# python3 -m mplane.supervisor --config ./conf/supervisor.c
 
 ```
 
-In another terminal, run the Scamper probe component (NOTE: Certain capabilities need Scamper probe to be run as root because of the use of raw/link-layer sockets). The probe component should register to the supervisor and output the registration status:
+In another terminal, run the Scamper probe component (NOTE: Certain capabilities need Scamper probe to be run as root because of the use of raw/link-layer sockets. If running the component with `sudo` doesn't work, you should `setuid 4755` scamper's binary.). The probe component should register to the supervisor and output the registration status:
 ```
 ko@host:~/protocol-ri# sudo python3 -m mplane.component --config ./conf/scamper.conf
 Added <Service for <capability: measure (tracebox-standard-ip4) when now ... future token 7faab371 schema 3c5e225e p/m/r 2/3/2>>
