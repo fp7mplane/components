@@ -232,7 +232,7 @@ def exporter_streaming_capability():
     cap.add_metadata("System_type", "tStat")
     cap.add_metadata("System_ID", "tStat-Proxy")
     cap.add_metadata("System_version", "0.1")
-    cap.add_parameter("repo.url")
+    cap.add_parameter("repository.url")
     cap.add_parameter("log.folder")
     cap.add_parameter("log.type")
     cap.add_parameter("log.time")
@@ -340,13 +340,13 @@ class tStatExporterService(mplane.scheduler.Service):
             os.chdir(curr_dir)
 
         elif "tstat-exporter_streaming" in spec.get_label():
-            print(spec.get_label(), spec.get_parameter_value("repo.url"),
+            print(spec.get_label(), spec.get_parameter_value("repository.url"),
                 spec.get_parameter_value("log.type"),
                 spec.get_parameter_value("log.time"),
                 spec.get_parameter_value("log.folder"))
 
-            repoip = spec.get_parameter_value("repo.url").split(":")[-2]
-            repoport = spec.get_parameter_value("repo.url").split(":")[-1]
+            repoip = spec.get_parameter_value("repository.url").split(":")[-2]
+            repoport = spec.get_parameter_value("repository.url").split(":")[-1]
 
             process = Process(target=tstat_streaming_exporter.run, args=[repoip, repoport, 
                 spec.get_parameter_value("log.type"),
