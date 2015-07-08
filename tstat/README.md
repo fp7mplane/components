@@ -207,11 +207,11 @@ For instance, to activate the streaming indirect export of log_tcp_complete for 
 log.folder = /path/to/log/folder/
 log.time = 60
 log.type = log_tcp_complete
-repo.url = localhost:9001
+repository.url = localhost:9001
 ok
 ```
 
-NOTE: The `repo.url` contains the IP address of the repository and the port value associated to `repository_streaming_port` in `tstatrepository.conf`.
+NOTE: The `repository.url` contains the IP address of the repository and the port value associated to `repository_streaming_port` in `tstatrepository.conf`.
 
 ### Activating RRD exporter
 

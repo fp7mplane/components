@@ -453,10 +453,6 @@
       "prim": "string"
     },
     {
-      "name": "repo.url",
-      "prim": "string"
-    },    
-    {
       "name": "log.folder",
       "prim": "string"
     },
