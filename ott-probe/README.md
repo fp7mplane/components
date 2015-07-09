@@ -2,7 +2,7 @@
 
 The fully operational OTT probe setup consists of 3 main parts:
 
-- OTT probe. C++ measurement module, available on NETvisor site. You can read about its functionality and the collected metrics at <https://www.ict-mplane.eu/public/ott-probe>.
+- OTT probe. C++ measurement module, available on NETvisor site (see below). You can read about its functionality and the collected metrics at <https://www.ict-mplane.eu/public/ott-probe>.
 - mPlane protocol Reference Implementation, available on GitHub. Component based framework written in Python to enable cooperation of mPlane compliant devices.
 - OTT probe - mPlane SDK interface, available on GitHub. Python interface enabling OTT probe to communicate with other mPlane components.
 
@@ -17,7 +17,7 @@ Prerequisite for the C++ module:
 - `libreactor` - published by NETvisor Ltd.  
 - `probe-ott` published by NETvisor Ltd.
 
-The published modules are avaible at <http://tufaweb.netvisor.hu/ottdemo/mplane-ottmodule.tar.gz>. To speed up testing there is no need to compile it from source as it is already avaible for various platforms:
+The published modules are avaible at <http://tufaweb.netvisor.hu/ottdemo/mplane-ottmodule.tar.gz>, or at http://tufaweb.netvisor.hu/mplane/ott-probe/mplane-ottmodule.tar.gz. To speed up testing there is no need to compile it from source as it is already avaible for various platforms:
 
 - ar71xx (tested on OpenWRT 12.04)  
 - x86_64 (tested on Ubuntu 14.04)  
@@ -62,33 +62,39 @@ export PYTHONPATH=$PYTHONPATH:<protocol-ri_dir>
 
 Copy the ott-probe interface stuff (`<components_dir>\ott-probe` folder) into  `<protocol-ri_dir>/mplane/components`. This directory should contains the followings:
 
-- `registry.json`    The registry.json file containing the needed extensions for the OTT-probe  
+- `ott-registry.json`    The registry.json file containing the needed extensions for the OTT-probe (core registry is included within). It can be also downloaded from http://tufaweb.netvisor.hu/mplane/ott-probe/ott-registry.json. This is an extended version of the coreJSON file, with all the needed definitions for **ott-probe**.
 - `ott.py`    The Python interface
-- `ott.conf`    The config file for running OTT in the component framework  
-- `supervisor.conf` and `client.conf`	We put them here until our `registry.json` will not merged into the official one
+- `supervisor.conf`,`client.conf`, `component.conf`    The config files for running OTT in the component framework
+- `ott-capabilities`	The capabilities file, does not needed for installation
+- `README.md`	This file.
 
 Adjust the parameters in the `ott.conf` file if needed (e.g. path to certificates, supervisor address, client port and address, roles, etc).
 
 In a terminal window start supervisor:
 ```
-root@h139-40:~/protocol-ri# cd ~/protocol-ri; python3.4 -m mplane.supervisor --config mplane/components/ott-probe/supervisor.conf
+root@h139-40:~/protocol-ri# test2@h139-40:~/protocol-ri$ scripts/mpsup --config mplane/components/ott-probe/supervisor.conf
+ListenerHttpComponent running on port 8890
 
 ```
 In another terminal start the OTT probe as a component and check if communication is established and the probe capabilities are registered with the supervisor:
 ```
-root@h139-40:~/protocol-ri# cd ~/protocol-ri; python3.4 -m mplane.component --config mplane/components/ott-probe/ott.conf
-Added <Service for <capability: measure (ott-download) when now ... future / 10s token 0a01b50e schema 503f24c6 p/m/r 2/0/8>>
+test2@h139-40:~/protocol-ri$ scripts/mpcom --config mplane/components/ott-probe/component.conf
+Added <Service for <capability: measure (ott-download) when now ... future / 10s token b77698ec schema 33a0f637 p/m/r 2/0/8>>
+Added <Service for <capability: measure (ping-average-ip4) when now ... future / 1s token a74fabd1 schema e2ca42e6 p/m/r 2/0/4>>
+Added <Service for <capability: measure (ping-detail-ip4) when now ... future / 1s token 75cd8c84 schema db8ef547 p/m/r 2/0/2>>
 
 Capability registration outcome:
-callback: Ok
+ping-detail-ip4: Ok
+ping-average-ip4: Ok
 ott-download: Ok
+callback: Ok
 
 Checking for Specifications...
 
 ```
 Now we can start a clientshell in a third window to test the measurement functionalities:
 ```
-root@h139-40:~/protocol-ri# cd ~/protocol-ri; python3.4 -m mplane.clientshell --config mplane/components/ott-probe/client.conf
+test2@h139-40:~/protocol-ri$ scripts/mpcli --config mplane/components/ott-probe/client.conf
 ok
 mPlane client shell (rev 20.1.2015, sdk branch)
 Type help or ? to list commands. ^D to exit.
@@ -99,7 +105,9 @@ Type help or ? to list commands. ^D to exit.
 Now check that capabilities are registered and run a measurement:
 ```
 |mplane| listcap
-Capability ott-download (token 0a01b50e233b6b4637e35495aadb1eaf)
+Capability ott-download (token b77698ecef311f599940612f51ac7e27)
+Capability ping-average-ip4 (token a74fabd15ef8bbaaf68eb106a6c1c54e)
+Capability ping-detail-ip4 (token 75cd8c844dce30a09c579d9fc89caa3d)
 |mplane| runcap ott-download
 |when| = now + 30s / 10s
 content.url = http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8

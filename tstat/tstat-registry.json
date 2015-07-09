@@ -2,7 +2,7 @@
   "registry-format": "mplane-0",
   "registry-revision": 0,
   "registry-uri": "https://raw.githubusercontent.com/fp7mplane/components/master/tstat/tstat-registry.json",
-  "includes": ["http://ict-mplane.eu/registry/core"],
+  "includes": ["http://ict-mplane.eu/registry/demo"],
   "elements": [
     {
       "name": "packets.forward",
@@ -452,10 +452,6 @@
       "name": "importer.started",
       "prim": "string"
     },
-    {
-      "name": "repo.url",
-      "prim": "string"
-    },    
     {
       "name": "log.folder",
       "prim": "string"

@@ -7,7 +7,10 @@ Firelog requires Python 3.3 and the following additional packages:
 - urllib
 
 Download the modified tstat probe from http://bit.ly/1K9cQ82
+
 Unpack, configure and make (do not: make install)
+
+Compile the .c scripts in scripts/ with 4755 bitmask
 
 Download phantomJS browser: http://phantomjs.org/
 

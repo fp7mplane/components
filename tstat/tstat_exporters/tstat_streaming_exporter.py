@@ -27,6 +27,7 @@ import signal
 from socket import error as SocketError
 import logging
 import datetime
+from unidecode import unidecode
 
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
@@ -70,12 +71,7 @@ def tail_tstat_log(filename, address, port, timeoutset, pid):
     handled by an independent subprocess, so that all the available cores are employed.
     """
     subp = None
-    # Check the file is gzipped
-    print(filename)
-    if filename.endswith(".gz"):
-        subp = subprocess.Popen('gzcat %s | tail -f' % filename, stdout=subprocess.PIPE, shell=True)
-    else:
-        subp = subprocess.Popen('tail -f %s' % filename, stdout=subprocess.PIPE, shell=True)
+    subp = subprocess.Popen('tail -f %s' % filename, stdout=subprocess.PIPE, shell=True)
     subpfile = open("/tmp/log_to_tcp_tail_pid.txt", "w")
     subpfile.write("%d\n" % subp.pid)
     subpfile.close()
@@ -89,10 +85,10 @@ def tail_tstat_log(filename, address, port, timeoutset, pid):
     while True:
         try:
             with timeout(seconds=((int(timeoutset)+1)*60)):
-                line = subp.stdout.readline()
+                line = subp.stdout.readline().decode("ascii", 'ignore')
                 # print(line)
                 old_check_time = datetime.datetime.now()
-                MESSAGE = filename+" "+line[:-1].decode("utf-8")+"\n"
+                MESSAGE = unidecode(filename + " " + line[:-1] + "\n")
                 try:
                     sock.sendall(bytes(MESSAGE, "utf-8"))
                 except SocketError as e:
@@ -105,12 +101,6 @@ def tail_tstat_log(filename, address, port, timeoutset, pid):
             subp.terminate()
             sock.close()
             return
-        # except:
-        #     logging.warning("Error! Closing the read process for %s..." % filename)
-        #     subp.terminate()
-        #     sock.close()
-        #     return
-    
     subp.terminate()
     return
 
