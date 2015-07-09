@@ -4,7 +4,7 @@ The Tstat probe setup consists of 3 main parts:
 
 - [Tstat](<http://tstat.polito.it>): a passive sniffer able to provide several insight on the traffic patterns at both the network and the transport levels.
 - [mPlane Protocol Reference Implementation](<https://github.com/fp7mplane/protocol-ri>): a component-based framework written in Python to enable cooperation of mPlane compliant devices.
-- [Tstat mPlane proxy](<https://github.com/fp7mplane/components/tree/master/tstat>): a Python interface connecting the Tstat probe to the mPlane.
+- [Tstat mPlane proxy](<https://github.com/fp7mplane/components/tree/master/tstat>): a Python interface connecting the Tstat probe to the mPlane protocol.
 
 ##Installing Tstat
 Download the source code from [Tstat](http://tstat.polito.it/download/tstat-latest.tar.gz).
