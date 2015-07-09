@@ -1,0 +1,32 @@
+{
+  "registry-format": "mplane-0",
+  "registry-revision": 0,
+  "includes": ["http://ict-mplane.eu/registry/core"],  
+  "registry-uri": "http://91.227.139.40/ezrepo-registry.json",
+  "elements": [
+    {
+      "name": "type.repo",
+      "prim": "string"
+    },
+    {
+      "name": "overall.grade",
+      "prim": "natural"
+    },
+    {
+      "name": "range.grade",
+      "prim": "string"
+    },
+    {
+      "name": "select.grade",
+      "prim": "string"
+    },
+    {
+      "name": "results.repo",
+      "prim": "string"
+    },
+    {
+      "name": "metric.repo",
+      "prim": "string"
+    }
+  ]
+}
