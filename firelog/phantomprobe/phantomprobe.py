@@ -108,10 +108,16 @@ class PhantomProbe():
             sys.exit(-1)
 
         logger.debug('Backup dir set at: %s' % self.backup_dir)
-        self.loc_info = utils.get_location()
-        if not self.loc_info:
-            logger.warning("No info on location retrieved.")
-        self.dbcli = DBClient(self.config, self.loc_info, create=True)
+        try:
+            self.dbcli = DBClient(self.config)
+            self.dbcli.get_probe_id()
+            logger.info("Probe data already stored.")
+        except Exception:
+            self.loc_info = utils.get_location()
+            if not self.loc_info:
+                logger.warning("No info on location retrieved.")
+            self.dbcli = DBClient(self.config, self.loc_info, create=True)
+
         try:
             self.flumemanager = FlumeManager(self.config)
             self.flumemanager.start_flume()
@@ -155,6 +161,11 @@ class PhantomProbe():
         self.dbcli.load_to_db(stats)
         logger.info('Ended browsing to %s' % self.url)
         self.passive = self.dbcli.pre_process_raw_table()
+        if not self.passive:
+            logger.error("Unable to retrieve passive measurements.")
+            logger.error("Check if Tstat is running properly.")
+            logger.error("Quitting.")
+            return False
         utils.clean_tmp_files(self.backup_dir, [self.tstat_out_file, self.harfile], self.url, False)
         logger.debug('Saved backup files.')
         return True
@@ -168,9 +179,9 @@ class PhantomProbe():
                 os.remove(tracefile)
             l = LocalDiagnosisManager(self.dbcli, self.url)
             self.diagnosis = l.run_diagnosis(self.passive, self.active)
+            self.send_results()
         else:
             self.diagnosis = {"Warning": "Unable to perform browsing"}
-        self.send_results()
 
     def send_results(self):
         jc = JSONClient(self.config, self.dbcli)
