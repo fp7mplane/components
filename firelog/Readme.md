@@ -6,7 +6,7 @@ Firelog requires Python 3.3 and the following additional packages:
 - psutil
 - urllib
 
-Run the install.sh script to install additional software:
+Run the install.sh script to install and configure the additional software:
 
 - modified tstat
 - phantomjs
