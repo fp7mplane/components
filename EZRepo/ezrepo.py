@@ -129,17 +129,22 @@ def runEveryMinute():
 Implements service capabilities and services
 """
 
-def services(port = 9900):
+def services(port = "9900"):
 
     # TODO fname from config
     fname = "mplane/threshold.json"
 
     # l = task.LoopingCall(runEveryMinute)
     # l.start(10)
+    port = port.replace(" ", "")
+    try:
+        ports = port.split(",")
+        for p in ports:
+            print(p)
+            reactor.listenUDP(int(p), MyRepo(fname))
+    except:
+        reactor.listenUDP(int(port), MyRepo(fname))
 
-    print(port)
-
-    reactor.listenUDP(int(port), MyRepo(fname))
     Thread(target=reactor.run, args=(False,)).start()
 
     # the parameter is passed to this function by component-py, 
