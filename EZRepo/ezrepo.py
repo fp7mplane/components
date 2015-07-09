@@ -67,6 +67,8 @@ class MyRepo(DatagramProtocol):
         if os.path.isfile(THRESHOLD):
             with open(THRESHOLD, 'r') as fp:
                 self.ping_thresholds = json.load(fp)
+        else:
+            raise IOError(THRESHOLD, " not found, grading is impossible")
 
         globalRepo = self.mark_results;
 
@@ -140,7 +142,6 @@ def services(port = "9900"):
     try:
         ports = port.split(",")
         for p in ports:
-            print(p)
             reactor.listenUDP(int(p), MyRepo(fname))
     except:
         reactor.listenUDP(int(port), MyRepo(fname))
@@ -155,7 +156,7 @@ def services(port = "9900"):
     return services
 
 def repository_capability():
-    cap = mplane.model.Capability(label="ezrepo", when = "past ... future")
+    cap = mplane.model.Capability(verb="query", label="ezrepo", when = "past ... future")
 
     cap.add_parameter("type.repo") #TODO add this to registry.json. Set not working like cap.add_parameter("type.repo", "ott, ping"). 
     cap.add_parameter("range.grade")
@@ -184,6 +185,8 @@ class RepositoryService(mplane.scheduler.Service):
         # Run measurements here
         res = mplane.model.Result(specification=spec)
         (start_time , end_time) = spec._when.datetimes()
+        if not start_time:
+            start_time = "1970-01-01 00:00:00.000000"
         res.set_when(mplane.model.When(a = start_time, b = end_time))
 
         myType = spec.get_parameter_value("type.repo")
@@ -223,11 +226,16 @@ class RepositoryService(mplane.scheduler.Service):
                             print(myRes.myResult)
                             res.set_result_value("results.repo", myRes.myResult, iterator)
                             res.set_result_value("overall.grade", myRes.mark[m], iterator)
-                            res.set_result_value("source.ip4", myRes.myResult["parameters"]["source.ip4"], iterator)
-                            res.set_result_value("destination.ip4", myRes.myResult["parameters"]["destination.ip4"], iterator)
+                            if "source.ip4" in myRes.myResult["parameters"]:
+                                res.set_result_value("source.ip4", myRes.myResult["parameters"]["source.ip4"], iterator)
+                            else:
+                                res.set_result_value("source.ip4", "1.2.3.4", iterator)
+                            if "destination.ip4" in myRes.myResult["parameters"]:
+                                res.set_result_value("destination.ip4", myRes.myResult["parameters"]["destination.ip4"], iterator)
+                            else:
+                                res.set_result_value("destination.ip4", "1.2.3.4", iterator)
                             iterator += 1
             
         #res.set_result_value("results.repo", globalRepo["ping"][2].myResult, 2)
-        # fill the Result here
-        # TODO filtering
+        #print(mplane.model.unparse_json(res).encode("utf-8"))
         return res
