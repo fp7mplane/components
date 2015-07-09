@@ -129,15 +129,17 @@ def runEveryMinute():
 Implements service capabilities and services
 """
 
-def services():
+def services(port = 9900):
 
     # TODO fname from config
     fname = "mplane/threshold.json"
 
-    l = task.LoopingCall(runEveryMinute)
-    l.start(1.0)
+    # l = task.LoopingCall(runEveryMinute)
+    # l.start(10)
 
-    reactor.listenUDP(9900, MyRepo(fname))
+    print(port)
+
+    reactor.listenUDP(int(port), MyRepo(fname))
     Thread(target=reactor.run, args=(False,)).start()
 
     # the parameter is passed to this function by component-py, 
@@ -148,7 +150,8 @@ def services():
     return services
 
 def repository_capability():
-    cap = mplane.model.Capability(label="repo", when = "past ... future")
+    cap = mplane.model.Capability(label="ezrepo", when = "past ... future")
+
     cap.add_parameter("type.repo") #TODO add this to registry.json. Set not working like cap.add_parameter("type.repo", "ott, ping"). 
     cap.add_parameter("range.grade")
     cap.add_parameter("select.grade")
