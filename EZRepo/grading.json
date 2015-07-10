@@ -13,12 +13,12 @@
           "grade": "5",
           "if": [
             {
-              "metric": "ott.manifestQos",
+              "metric": "qos.manifest",
               "rel": ">",
               "limit": "95"
             },
             {
-              "metric": "ott.contentQos",
+              "metric": "qos.content",
               "rel": ">",
               "limit": "80"
             }
@@ -28,12 +28,12 @@
           "grade": "4",
           "if": [
             {
-              "metric": "ott.manifestQos",
+              "metric": "qos.manifest",
               "rel": ">",
               "limit": "85"
             },
             {
-              "metric": "ott.contentQos",
+              "metric": "qos.content",
               "rel": ">",
               "limit": "70"
             }
@@ -43,12 +43,12 @@
           "grade": "3",
           "if": [
             {
-              "metric": "ott.manifestQos",
+              "metric": "qos.manifest",
               "rel": ">",
               "limit": "65"
             },
             {
-              "metric": "ott.contentQos",
+              "metric": "qos.content",
               "rel": ">",
               "limit": "60"
             }
@@ -58,12 +58,12 @@
           "grade": "2",
           "if": [
             {
-              "metric": "ott.manifestQos",
+              "metric": "qos.manifest",
               "rel": ">",
               "limit": "45"
             },
             {
-              "metric": "ott.contentQos",
+              "metric": "qos.content",
               "rel": ">",
               "limit": "50"
             }
@@ -87,12 +87,12 @@
           "grade": "5",
           "if": [
             {
-              "metric": "ott.manifestQos",
+              "metric": "qos.manifest",
               "rel": ">",
               "limit": "95"
             },
             {
-              "metric": "ott.contentQos",
+              "metric": "qos.content",
               "rel": ">",
               "limit": "80"
             }
@@ -102,12 +102,12 @@
           "grade": "4",
           "if": [
             {
-              "metric": "ott.manifestQos",
+              "metric": "qos.manifest",
               "rel": ">",
               "limit": "85"
             },
             {
-              "metric": "ott.contentQos",
+              "metric": "qos.content",
               "rel": ">",
               "limit": "70"
             }
@@ -117,12 +117,12 @@
           "grade": "3",
           "if": [
             {
-              "metric": "ott.manifestQos",
+              "metric": "qos.manifest",
               "rel": ">",
               "limit": "65"
             },
             {
-              "metric": "ott.contentQos",
+              "metric": "qos.content",
               "rel": ">",
               "limit": "60"
             }
@@ -132,12 +132,12 @@
           "grade": "2",
           "if": [
             {
-              "metric": "ott.manifestQos",
+              "metric": "qos.manifest",
               "rel": ">",
               "limit": "45"
             },
             {
-              "metric": "ott.contentQos",
+              "metric": "qos.content",
               "rel": ">",
               "limit": "50"
             }
