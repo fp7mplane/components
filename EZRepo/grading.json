@@ -1,7 +1,7 @@
 {
   "grading": [
     {
-      "gradeName": "overallGrade",
+      "gradeName": "overall",
       "appliesTo": {
         "recordType": "OTT",
         "recordSource": "*",
@@ -13,12 +13,12 @@
           "grade": "5",
           "if": [
             {
-              "metric": "qos.manifest",
+              "metric": "ott.manifestQos",
               "rel": ">",
               "limit": "95"
             },
             {
-              "metric": "qos.content",
+              "metric": "ott.contentQos",
               "rel": ">",
               "limit": "80"
             }
@@ -28,12 +28,12 @@
           "grade": "4",
           "if": [
             {
-              "metric": "qos.manifest",
+              "metric": "ott.manifestQos",
               "rel": ">",
               "limit": "85"
             },
             {
-              "metric": "qos.content",
+              "metric": "ott.contentQos",
               "rel": ">",
               "limit": "70"
             }
@@ -43,12 +43,12 @@
           "grade": "3",
           "if": [
             {
-              "metric": "qos.manifest",
+              "metric": "ott.manifestQos",
               "rel": ">",
               "limit": "65"
             },
             {
-              "metric": "qos.content",
+              "metric": "ott.contentQos",
               "rel": ">",
               "limit": "60"
             }
@@ -58,12 +58,12 @@
           "grade": "2",
           "if": [
             {
-              "metric": "qos.manifest",
+              "metric": "ott.manifestQos",
               "rel": ">",
               "limit": "45"
             },
             {
-              "metric": "qos.content",
+              "metric": "ott.contentQos",
               "rel": ">",
               "limit": "50"
             }
@@ -75,7 +75,7 @@
       ]
     },
     {
-      "gradeName": "bandWidthGrade",
+      "gradeName": "bandWidth",
       "appliesTo": {
         "recordType": "OTT",
         "recordSource": "*",
@@ -87,12 +87,12 @@
           "grade": "5",
           "if": [
             {
-              "metric": "qos.manifest",
+              "metric": "ott.manifestQos",
               "rel": ">",
               "limit": "95"
             },
             {
-              "metric": "qos.content",
+              "metric": "ott.contentQos",
               "rel": ">",
               "limit": "80"
             }
@@ -102,12 +102,12 @@
           "grade": "4",
           "if": [
             {
-              "metric": "qos.manifest",
+              "metric": "ott.manifestQos",
               "rel": ">",
               "limit": "85"
             },
             {
-              "metric": "qos.content",
+              "metric": "ott.contentQos",
               "rel": ">",
               "limit": "70"
             }
@@ -117,12 +117,12 @@
           "grade": "3",
           "if": [
             {
-              "metric": "qos.manifest",
+              "metric": "ott.manifestQos",
               "rel": ">",
               "limit": "65"
             },
             {
-              "metric": "qos.content",
+              "metric": "ott.contentQos",
               "rel": ">",
               "limit": "60"
             }
@@ -132,12 +132,12 @@
           "grade": "2",
           "if": [
             {
-              "metric": "qos.manifest",
+              "metric": "ott.manifestQos",
               "rel": ">",
               "limit": "45"
             },
             {
-              "metric": "qos.content",
+              "metric": "ott.contentQos",
               "rel": ">",
               "limit": "50"
             }
@@ -149,7 +149,7 @@
       ]
     },
     {
-      "gradeName": "overallGrade",
+      "gradeName": "overall",
       "appliesTo": {
         "recordType": "GLIMPSE",
         "recordSource": "*",
@@ -214,6 +214,80 @@
               "metric": "rtt.ms.max",
               "rel": "<",
               "limit": "200"
+            }
+          ]
+        },
+        {
+          "grade": "1"
+        }
+      ]
+    },
+    {
+      "gradeName": "overall",
+      "appliesTo": {
+        "recordType": "PING",
+        "recordSource": "*",
+        "recordDest": "*",
+        "recordContent": "*"
+      },
+      "gradingRules": [
+        {
+          "grade": "5",
+          "if": [
+            {
+              "metric": "delay.twoway.icmp.us",
+              "rel": "<",
+              "limit": "20000"
+            },
+            {
+              "metric": "delay.twoway.icmp.us.max",
+              "rel": "<",
+              "limit": "50000"
+            }
+          ]
+        },
+        {
+          "grade": "4",
+          "if": [
+            {
+              "metric": "delay.twoway.icmp.us",
+              "rel": "<",
+              "limit": "40000"
+            },
+            {
+              "metric": "delay.twoway.icmp.us.max",
+              "rel": "<",
+              "limit": "100000"
+            }
+          ]
+        },
+        {
+          "grade": "3",
+          "if": [
+            {
+              "metric": "delay.twoway.icmp.us",
+              "rel": "<",
+              "limit": "60000"
+            },
+            {
+              "metric": "delay.twoway.icmp.us.max",
+              "rel": "<",
+              "limit": "150000"
+            }
+          ]
+        },
+        {
+          "grade": "2",
+          "if": [
+            {
+              "metric": "delay.twoway.icmp.us",
+              "rel": "<",
+              "limit": "80000"
+            },
+            {
+              "metric": "delay.twoway.icmp.us.max",
+              "rel": "<",
+              "limit": "200000"
             }
           ]
         },

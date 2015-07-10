@@ -38,12 +38,13 @@ from threading import Thread
 
 globalRepo = None
 RESULTS_TMP = "/tmp/results.json"
-THRESHOLD= "mplane/threshold.json"
+THRESHOLD= "mplane/grading.json"
 
 
 class MarkResult():
 
-    def __init__(self, _dict):
+    def __init__(self, tech, _dict):
+        self.tech = tech
         self.mark = {}
         self.myResult = _dict
 
@@ -53,10 +54,7 @@ class MyRepo(DatagramProtocol):
         global globalRepo
 
         self.mark_results = {}
-        self.mark_results["ping"] = []
-        self.mark_results["ott"] = []
-
-        self.ping_thresholds = {}
+        self.thresholds = {}
 
         """ TODO loading data from RESULTS_TMP
         if os.path.isfile(RESULTS_TMP):
@@ -64,46 +62,77 @@ class MyRepo(DatagramProtocol):
                 self.mark_results = pickle.load(i)
         """
 
-        if os.path.isfile(THRESHOLD):
-            with open(THRESHOLD, 'r') as fp:
-                self.ping_thresholds = json.load(fp)
-        else:
+        # parsing the grading.json
+        if not os.path.isfile(THRESHOLD):
             raise IOError(THRESHOLD, " not found, grading is impossible")
+
+        with open(THRESHOLD, 'r') as fp:
+            grading = json.load(fp)
+            # parsing the grading.json
+            for g in grading['grading']:
+                if not g["gradeName"]:
+                    raise ValueError("JSON Format Error! gradeName must be specified")
+                if not g["appliesTo"]:
+                    raise ValueError("JSON Format Error! appliesTo must be specified")
+                if not g["gradingRules"]:
+                    raise ValueError("JSON Format Error! gradingRules must be specified")
+
+                if not (g["gradeName"] == "overall" or g["gradeName"] == "bandWidth"):
+                    raise ValueError("unknown gradeName specified: ", g["gradeName"])
+                #if not (g["appliesTo"]["recordType"] == "OTT" or g["appliesTo"]["recordType"] == "GLIMPSE" or g["appliesTo"]["recordType"] == "PING"):
+                #    raise ValueError("recordType: ", g["appliesTo"]["recordType"], " is not supported")
+                
+                if g["appliesTo"]["recordType"] not in self.thresholds:
+                    # print("ADDING ", g["appliesTo"]["recordType"])
+                    self.thresholds[g["appliesTo"]["recordType"]] = []
+
+                self.thresholds[g["appliesTo"]["recordType"]].append(g)
 
         globalRepo = self.mark_results;
 
     def doMark(self, metric, li, i, resultvalues):
-        mark = 1
-        eq = 1
-        if self.ping_thresholds[metric]["2"] > self.ping_thresholds[metric]["3"]:
-            eq = -1
-        for k, v in li.items():
-            for array in resultvalues:
-                if eq == -1:
-                    if float(array[i]) < v:
-                        mark = k
-                          
-                    else:
-                        break
-                elif eq == 1:
-                    if float(array[i]) > v:
-                        mark = k
-                    else:
-                        break
-                else:
-                    print("Unknown EQ")
         return mark
 
-    def handlePing(self, _dict):
-        mark_result = MarkResult(_dict)
-        for i in range(len(_dict["results"])):
-            metric = _dict["results"][i]
-            if metric in self.ping_thresholds:
-                #threshold exists for metric
-                mark_result.mark[metric] = int(self.doMark(metric, self.ping_thresholds[metric], i, _dict["resultvalues"]))
-                print("metric: ", metric, " mark: ", mark_result.mark[metric] )
-        self.mark_results["ping"].append(mark_result)
+    def handleResult(self, tech, _dict):
+        if tech in self.thresholds:
+            mark_result = MarkResult(tech, _dict)
+            # iterate over the rules, whose can be applied on this result
+            for t in self.thresholds[tech]:
+                # TODO apply rule for non *
+                if t["appliesTo"]["recordSource"] == "*" and t["appliesTo"]["recordDest"] == "*" and t["appliesTo"]["recordContent"] == "*":
+                    # t can be applied for the result
+                    # iterate over gradingRules
+                    currGrade = -1
+                    mark_result.mark[t["gradeName"]] = currGrade
+                    for r in t["gradingRules"]:
+                        if currGrade < int(r["grade"]) and int(r["grade"]) != 1:
+                            # iterate over the conditions
+                            ok = 1
 
+                            if 'if' in r:
+                                for c in r["if"]:
+                                    # what should happen if one of the conditions cannot be evaled inside one grading rule
+                                    # i.e. not all of the metrics are contained by the result
+                                    # looking for the index
+                                    i = -1
+                                    for j in range(len(_dict["results"])):
+                                        # print(c["metric"], " =?= ", _dict["results"][i])
+                                        if c["metric"] == _dict["results"][j]:
+                                            i = j
+                                            break
+
+                                    if i != -1:
+                                        # metric found in the result
+                                        # TODO eval not working
+                                        tempmark = -1
+                                        stateMent = "tempmark = " + r['grade'] + " if " + _dict["resultvalues"][0][i] + " " + c["rel"] + " " + c["limit"] + " else -1"
+                                        print(stateMent)
+                                        eval(stateMent)
+                            
+                            else:
+                                raise ValueError("JSON Error! IF condition must be specified")
+                                    
+                                                    
     def datagramReceived(self, data, hostAndPort):
         # TODO:
         # - check if it is a Result in a better way
@@ -115,7 +144,7 @@ class MyRepo(DatagramProtocol):
         if 'label' in _dict:
             label = _dict["label"]
             if label.startswith("ping"):
-                self.handlePing(_dict)
+                self.handleResult("PING",_dict)
             elif label.startswith("ott"):
                 self.handleOTT(_dict)
         globalRepo = self.mark_results
@@ -165,8 +194,8 @@ def repository_capability():
 
     cap.add_result_column("results.repo")
     cap.add_result_column("overall.grade")
-    cap.add_result_column("source.ip4")
-    cap.add_result_column("destination.ip4")
+    # cap.add_result_column("source.ip4")
+    # cap.add_result_column("destination.ip4")
     return cap
 
 class RepositoryService(mplane.scheduler.Service):
@@ -226,6 +255,7 @@ class RepositoryService(mplane.scheduler.Service):
                             print(myRes.myResult)
                             res.set_result_value("results.repo", myRes.myResult, iterator)
                             res.set_result_value("overall.grade", myRes.mark[m], iterator)
+                            """
                             if "source.ip4" in myRes.myResult["parameters"]:
                                 res.set_result_value("source.ip4", myRes.myResult["parameters"]["source.ip4"], iterator)
                             else:
@@ -234,6 +264,7 @@ class RepositoryService(mplane.scheduler.Service):
                                 res.set_result_value("destination.ip4", myRes.myResult["parameters"]["destination.ip4"], iterator)
                             else:
                                 res.set_result_value("destination.ip4", "1.2.3.4", iterator)
+                            """
                             iterator += 1
             
         #res.set_result_value("results.repo", globalRepo["ping"][2].myResult, 2)
