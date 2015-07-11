@@ -126,7 +126,7 @@ Type help or ? to list commands. ^D to exit.
 ```
 
 
-Now check that the anycast capabilities is registered:
+Now check that the mongoDB capabilities is registered:
 ```
 |mplane| listcap
 Capability mobile_probe_cellInfo (token cd6b5fa2dc4ddfd3d7c4f16898bf1b60)
