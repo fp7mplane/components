@@ -138,34 +138,32 @@ if you want you can change the ports 5001 and 5002 from the mSLAcert_main.py and
 
 >>>To run CI mSLAcert server:
 
-```export MPLANE_CONF_DIR=./conf```
+```export PYTHONPATH=.```
 
-```python3 -m mplane.component --config ./conf/component.conf```
+```./scripts/mpcom --config ./conf/component.conf```
 
 
 
 >>>To run CI mSLAcert Agent:
 
-```export MPLANE_CONF_DIR=./conf```
+```export PYTHONPATH=.```
 
-```python3 -m mplane.component --config ./conf/component-agent.conf```
+```./scripts/mpcom --config ./conf/component-agent.conf```
 
 
 
 >>>To run mPlane client:
 
-```export MPLANE_CONF_DIR=./conf```
+```export PYTHONPATH=.```
 
-```python3 -m mplane.clientshell --config ./conf/client.conf```
-
-
+```./scripts/mpcli --config ./conf/client.conf```
 
 
 >>>End the supoervisor in the end:
 
-```export MPLANE_CONF_DIR=./conf```
+```export PYTHONPATH=.```
 
-```python3 -m mplane.supervisor -config ./conf/supervisor-certs.conf```
+```./scripts/mpsup --config ./conf/supervisor.conf```
 
 
 This will launch the supervisor. 
