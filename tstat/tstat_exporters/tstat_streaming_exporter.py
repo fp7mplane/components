@@ -28,6 +28,7 @@ from socket import error as SocketError
 import logging
 import datetime
 from unidecode import unidecode
+import psutil
 
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
@@ -66,15 +67,18 @@ def establish_connection(IP, PORT, filename):
     logging.info("Transmitting %s" % filename)
     return sock
 
+def kill_recursively(proc):
+    parent = psutil.Process(proc.pid)
+    for child in parent.children(recursive=True):
+        child.kill()
+    parent.kill()
+
 def tail_tstat_log(filename, address, port, timeoutset, pid):
     """This function is called for each detected tstat log present in the input folder. Each input log is
     handled by an independent subprocess, so that all the available cores are employed.
     """
     subp = None
     subp = subprocess.Popen('tail -f %s' % filename, stdout=subprocess.PIPE, shell=True)
-    subpfile = open("/tmp/log_to_tcp_tail_pid.txt", "w")
-    subpfile.write("%d\n" % subp.pid)
-    subpfile.close()
     old_check_time = 0
     TCP_IP = address
     TCP_PORT = int(port)
@@ -98,10 +102,10 @@ def tail_tstat_log(filename, address, port, timeoutset, pid):
                     sock = establish_connection(TCP_IP, TCP_PORT, filename)
         except TimeoutError:
             logging.warning("Timeout! Log ended now. Closing the read process for %s..." % filename)
-            subp.terminate()
+            kill_recursively(subp)
             sock.close()
             return
-    subp.terminate()
+    kill_recursively(subp)
     return
 
 def initializer(terminating_):
@@ -141,15 +145,7 @@ def run(repoip, repoport, logtype, logtime, logfolder, start_time, duration):
             p_old = p
             # Terminate last process
             logging.info("Kill old log reader! %s " % (os.path.abspath(current_dir+"/"+logtype)))
-            subpfile = open("/tmp/log_to_tcp_tail_pid.txt", "r")
-            subp_pid = int(subpfile.readline().strip())
-            subpfile.close()
-            p_old.terminate()
-            try:
-                os.kill(subp_pid, signal.SIGKILL)
-            except OSError as e:
-                logging.warning(str(e))
-                logging.warning("Process not killed by OS!")
+            kill_recursively(p_old)
             # Start new one
             logging.info("Start new log reader! %s " % (os.path.abspath(new_dir+"/"+logtype)))
             p = mp.Process(target=tail_tstat_log, args=(os.path.abspath(new_dir+"/"+logtype), repoip, repoport, logtime, counter))
@@ -158,8 +154,6 @@ def run(repoip, repoport, logtype, logtime, logfolder, start_time, duration):
             current_dir = new_dir            
         time.sleep(0.1)
  
-    p.terminate()
-    # for f in files_in_dir:
-    #     print(f)
+    kill_recursively(p)
  
     print("End.")
