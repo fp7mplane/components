@@ -3,48 +3,50 @@
 https://github.com/etego/msla
 
 ###Exmp of the network scenario: 
-
-											PC2-Supervisor.py: 192.168.2.1
-														|
-														|
-														|
-														|
-														|
-												 _______|_________
-												|				  |
-												|				  |
-		PC1 - 192.168.1.1 <<<--------------------   Networok	  ----------------------->>>> PC4 - 192.168.4.1
-		mSLAcert_main.py						|		          |								mSLAcert_Agent.py
-												|_________________|
-														|
-														|
-														|
-														|
-														|
-														|
-											PC3-mPlane Clinet.py: 192.168.3.1
+									PC2-Supervisor.py: 192.168.2.1
+											|
+											|
+											|
+											|
+											|
+									 _______|_________
+									|				  |
+									|				  |
+PC1 - 192.168.1.1 <<<---------------   Networok	      ----------------->>>> PC4 - 192.168.4.1
+mSLAcert_main.py					|		          |						mSLAcert_Agent.py
+									|_________________|
+											|
+											|
+											|
+											|
+											|
+											|
+								PC3-mPlane Clinet.py: 192.168.3.1
 
 									
 In base of you network configuration you have to change the seguent files, for the Ip and certificates:
 
 ./conf/client.conf
-
 		[TLS]
 		cert = PKI/ca/certs/"client-certicate".crt
-		key = PKI/ca/certs/"plaintext certificate".key
+		key = PKI/ca/certs/"plaintext certificate.key
 		ca-chain = PKI/ca/root-ca/root-ca.crt
 
 		[client]
+		# leave registry_uri blank to use the default registry.json in the mplane/ folder
+		registry_uri = 
+		# http://ict-mplane.eu/registry/demo
 		# workflow may be 'component-initiated' or 'client-initiated'
-		workflow = client-initiated / component-initiated (Type of workflow)
+		workflow = component-initiated
 		# for component-initiated:
-		listen-host = "IP of the machine where is launched the client" (Exmp. 192.168.3.1)
+		listen-host = "IP of the machine where is launched the client" (exmp:192.168.3.1)
 		listen-port = 8891
+		listen-spec-link = https://127.0.0.1:8891/
 		registration-path = register/capability
 		specification-path = show/specification
 		result-path = register/result
 		# for client-initiated:
-		capability-url: "IP supervisor":8890/ (Exmp. 192.168.2.1)
+		capability-url: "IP supervisor":8890/ (exmp:192.168.2.1:8890/)
 		
 ./conf/component*.conf
 
@@ -67,57 +69,78 @@ In base of you network configuration you have to change the seguent files, for t
 
 		[component]
 		scheduler_max_results = 20
+		# leave registry_uri blank to use the default registry.json in the mplane/ folder
+		registry_uri = 
+		# http://ict-mplane.eu/registry/demo
 		# workflow may be 'component-initiated' or 'client-initiated'
-		workflow = component-initiated / client-initiated (Type of workflow)
+		workflow = component-initiated
 		# for component-initiated
-		client_host = "IP of the supervisor" (Exmp. 192.168.2.1)
+		client_host = "IP of the supervisor" (exmp: 192.168.2.1)
 		client_port = 8889
 		registration_path = register/capability
 		specification_path = show/specification
 		result_path = register/result
 		# for client-initiated
 		listen-port = 8888
+		listen-cap-link = https://127.0.0.1:8888/
 
 ./conf/supervisor.conf
 
 		[TLS]
-		cert = PKI/ca/certs/"client-certicate".crt
-		key = PKI/ca/certs/"plaintext certificate.key
+		cert= PKI/ca/certs/CI-Supervisor-FUB.crt
+		key= PKI/ca/certs/CI-Supervisor-FUB-plaintext.key
 		ca-chain = PKI/ca/root-ca/root-ca.crt
 
 		[Roles]
+		org.mplane.FUB.Components.mSLAcert_server = guest,admin
+		org.mplane.FUB.Agent.mSLAcert_Agent = guest,admin
+		org.mplane.FUB.Supervisors.CI_Supervisor_FUB = admin
+		Supervisor-1.FUB.mplane.org = admin
 		org.mplane.FUB.Clients.CI-Client_FUB = guest,admin
-		"add also the roles for all the other components, client, supervisor ect"
+
 
 		[Authorizations]
+		ping-average-ip4 = guest,admin
+		ping-detail-ip4 = guest,admin
+		tcpsla-average-ip4 = guest,admin
+		tcpsla-detail-ip4 = guest,admin
+		udpsla-average-ip4 = guest,admin
+		udpsla-detail-ip4 = guest,admin
+		msla-average-ip4 = guest,admin
+		msla-detail-ip4 = guest,admin
 		msla-AGENT-Probe-ip4 = guest,admin
-		"add the capability of your probe"
 
 		[client]
 		# workflow may be 'component-initiated' or 'client-initiated'
-		workflow = component-initiated / client-initiated (Type of workflow)
+		workflow = component-initiated
 		# for component-initiated:
-		listen-host = "IP of the machine where is launched the supervisor" (Exmp. 192.168.2.1)
+		listen-host = "IP of the machine where is launched the supervisor" (exmp: 192.168.2.1)
 		listen-port = 8889
+		listen-spec-link = 
+		# https://127.0.0.1:8889/
 		registration-path = register/capability
 		specification-path = show/specification
 		result-path = register/result
 		# for client-initiated:
-		component-urls: "IP of component 1":8888/,"IP of component 2":8888/ (Exmp. 192.168.1.1/8888, 192.168.4.1/8888)
-
+		component-urls: "IP of component 1":8888/,"IP of component 2":8888/ (exmp: 192.168.1.1:8888/,192.168.4.1:8888/)
 
 		[component]
 		scheduler_max_results = 20
+		# leave registry_uri blank to use the default registry.json in the mplane/ folder
+		registry_uri = 
+		# http://ict-mplane.eu/registry/demo
 		# workflow may be 'component-initiated' or 'client-initiated'
-		workflow = component-initiated / client-initiated (Type of workflow)
+		workflow = component-initiated
 		# for component-initiated:
-		client_host = "IP of the machine where is launched the client" (Exmp. 192.168.3.1)
-		client_port = 8891
+		client_host = "IP of the machine where is launched the client" (exmp: 192.168.2.1)
+		client_port = 8891 / 9911
 		registration_path = register/capability
 		specification_path = show/specification
 		result_path = register/result
 		# for client-initiated:
 		listen-port = 8890
+		listen-cap-link = 
+		# https://127.0.0.1:8890/
 
 ###To generate certificates use the scripts from mPlane RI (https://github.com/fp7mplane/protocol-ri)
 
@@ -138,34 +161,32 @@ if you want you can change the ports 5001 and 5002 from the mSLAcert_main.py and
 
 >>>To run CI mSLAcert server:
 
-```export MPLANE_CONF_DIR=./conf```
+```export PYTHONPATH=.```
 
-```python3 -m mplane.component --config ./conf/component.conf```
+```./scripts/mpcom --config ./conf/component.conf```
 
 
 
 >>>To run CI mSLAcert Agent:
 
-```export MPLANE_CONF_DIR=./conf```
+```export PYTHONPATH=.```
 
-```python3 -m mplane.component --config ./conf/component-agent.conf```
+```./scripts/mpcom --config ./conf/component-agent.conf```
 
 
 
 >>>To run mPlane client:
 
-```export MPLANE_CONF_DIR=./conf```
+```export PYTHONPATH=.```
 
-```python3 -m mplane.clientshell --config ./conf/client.conf```
-
-
+```./scripts/mpcli --config ./conf/client.conf```
 
 
 >>>End the supoervisor in the end:
 
-```export MPLANE_CONF_DIR=./conf```
+```export PYTHONPATH=.```
 
-```python3 -m mplane.supervisor -config ./conf/supervisor-certs.conf```
+```./scripts/mpsup --config ./conf/supervisor.conf```
 
 
 This will launch the supervisor. 

@@ -1,0 +1,34 @@
+{
+  "measurements": {
+    "mobile_probe_hardware": {
+      "collection": "mobileMeasurements",
+      "search": "HW",
+      "return": {
+        "observer.link": "HW.network_type",
+        "snr": "HW.wifi_RSSI",
+        "cpuload": "HW.Cpu Tot: ",
+        "memload": "HW.MemFree"
+      }
+    },
+    "mobile_probe_cellInfo" : {
+      "collection": "mobileMeasurements",
+      "search": "CELL_INFO",
+      "return": {
+        "snr": "lCELL_INFO.atestGSMSignalStrength",
+        "observer.link": "CELL_INFO.currentCellLocation"
+      }
+    },
+    "mobile_probe_videoLog":{
+      "collection": "mobileMeasurements",
+      "capability_name": "mobile_probe_videoLog",
+      "search": "LogCat",
+      "return": {
+        "measurement.identifier": "LogCat"
+      }
+    }
+  },
+  "collection": "mobileMeasurements",
+  "db": "mPlane",
+  "timestamp_field": "date",
+  "source_filed": "deviceID"
+}
