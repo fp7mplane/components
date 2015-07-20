@@ -73,6 +73,10 @@ def indirect_export(self, tls, path, spec, start,interval):
     it runs until the process stops
 
     """
+    # Check the repository URL but it is better to check in Client !
+    if (len(spec.get_parameter_value("repository.url").split(":")) < 2):
+        return False
+
     repository_ip = str(spec.get_parameter_value("repository.url").split(":")[-2])
     repository_port = int(spec.get_parameter_value("repository.url").split(":")[-1])
 
@@ -162,7 +166,6 @@ def run(self, config, path, spec, start):
 
     tls = mplane.tls.TlsState(config)
 
-    global proc 
     proc = multiprocessing.Process(target=indirect_export, args=[self, tls, path, spec, start, DEFAULT_RRD_INTERVAL])
     proc.deamon = True
     print("tstat-exporter_rrd Enabled \n")
