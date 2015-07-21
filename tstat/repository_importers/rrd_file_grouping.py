@@ -239,16 +239,16 @@ def stream_classifier(filename):
             readable_name += "average bitrate" + graphite_delimiter
 
         elif(connection_len_prefix in filename):
-            readable_name += "short flow length(bytes)" + graphite_delimiter
+            readable_name += "short flow length bytes" + graphite_delimiter
 
         elif(connection_len_long_flow_prefix in filename):
-            readable_name += "long flow length(bytes)" + graphite_delimiter 
+            readable_name += "long flow length bytes" + graphite_delimiter 
 
         elif(connection_short_packet_prefix in filename):
-            readable_name += "short flow length(packets)" + graphite_delimiter
+            readable_name += "short flow length packets" + graphite_delimiter
 
         elif( connection_len_udp_prefix in filename):
-            readable_name += "long flow length(packets)" + graphite_delimiter 
+            readable_name += "long flow length packets" + graphite_delimiter 
 
         elif(short_lifetime_prefix in filename):
             readable_name += "short flow lifetime" + graphite_delimiter
@@ -298,10 +298,10 @@ def rtcp_classifier(filename):
             readable_name += "mm flow bitrate" + graphite_delimiter
 
         elif (mm_flow_length_byte_prefix in filename):
-            readable_name += "mm flow length (bytes)" + graphite_delimiter
+            readable_name += "mm flow length bytes" + graphite_delimiter
 
         elif (mm_flow_length_packet_prefix in filename):
-            readable_name += "mm flow length (packets)" + graphite_delimiter
+            readable_name += "mm flow length packets" + graphite_delimiter
 
         elif (flow_bitrate_prefix in filename):
             readable_name += "flow bitrate" + graphite_delimiter
@@ -310,10 +310,10 @@ def rtcp_classifier(filename):
             readable_name += "duplicate packet" + graphite_delimiter
 
         elif (flow_length_byte_prefix in filename):
-            readable_name += "flow length (bytes)" + graphite_delimiter
+            readable_name += "flow length bytes" + graphite_delimiter
 
         elif (flow_length_packet_prefix in filename):
-            readable_name += "flow length (packets)" + graphite_delimiter
+            readable_name += "flow length packets" + graphite_delimiter
 
         elif (fraction_lost_prefix in filename):
             readable_name += "fraction of lost packets" + graphite_delimiter
@@ -682,7 +682,7 @@ def tcp_anomalies_decoder(filename):
         output = "Network_Duplicate"
 
     elif(filename == "5"):
-        output = "Flow_Control_(Window_Probing)"
+        output = "Flow_Control_Window_Probing"
 
     elif(filename == "6"):
         output = "Unnecessary_Retr_by_RTO"
@@ -1093,7 +1093,7 @@ def video_index_decoder(filename):
         output = "HLS"
 
     elif(filename == "13"):
-        output = "NFF (Sky-On_Demand)"
+        output = "NFF Sky-On_Demand"
 
     else:
         output = "Unknown"
