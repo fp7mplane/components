@@ -225,7 +225,7 @@
     {
       "gradeName": "overall",
       "appliesTo": {
-        "recordType": "PING",
+        "recordType": "ping",
         "recordSource": "*",
         "recordDest": "*",
         "recordContent": "*"

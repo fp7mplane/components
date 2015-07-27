@@ -53,7 +53,7 @@ class MyRepo(DatagramProtocol):
     def __init__(self, fname):
         global globalRepo
 
-        self.mark_results = {}
+        self.mark_results = []
         self.thresholds = {}
 
         """ TODO loading data from RESULTS_TMP
@@ -106,6 +106,7 @@ class MyRepo(DatagramProtocol):
                     mark_result.mark[t["gradeName"]] = currGrade
                     for r in t["gradingRules"]:
                         if currGrade < int(r["grade"]) and int(r["grade"]) != 1:
+                            # print("curr: " + str(currGrade) + " checking: " + r["grade"])
                             # iterate over the conditions
                             ok = 1
 
@@ -123,15 +124,13 @@ class MyRepo(DatagramProtocol):
 
                                     if i != -1:
                                         # metric found in the result
-                                        # TODO eval not working
-                                        tempmark = -1
-                                        stateMent = "tempmark = " + r['grade'] + " if " + _dict["resultvalues"][0][i] + " " + c["rel"] + " " + c["limit"] + " else -1"
-                                        print(stateMent)
-                                        eval(stateMent)
-                            
+                                        stateMent = r['grade'] + " if " + _dict["resultvalues"][0][i] + " " + c["rel"] + " " + c["limit"] + " else -1"
+                                        # print(stateMent)
+                                        mark_result.mark[t["gradeName"]] = currGrade = eval(stateMent)
                             else:
                                 raise ValueError("JSON Error! IF condition must be specified")
-                                    
+            self.mark_results.append(mark_result)
+            
                                                     
     def datagramReceived(self, data, hostAndPort):
         # TODO:
@@ -144,10 +143,11 @@ class MyRepo(DatagramProtocol):
         if 'label' in _dict:
             label = _dict["label"]
             if label.startswith("ping"):
-                self.handleResult("PING",_dict)
+                self.handleResult("ping",_dict)
             elif label.startswith("ott"):
                 self.handleOTT(_dict)
         globalRepo = self.mark_results
+        print(str(len(globalRepo)))
 
 def runEveryMinute():
     # saving the results to RESULTS_TMP
@@ -226,16 +226,16 @@ class RepositoryService(mplane.scheduler.Service):
         mark_min = int(mark_min)
         mark_max = int(mark_max)
 
-        if myType not in globalRepo:
-            raise ValueError("Unknown type.repo: ",myType," Currently supported: ott, ping")
-
         if mark_min < 1 or mark_min > 5:
             raise ValueError("Error in mark.min.repo: ",mark_min," Value must be between 1 and 5")
 
         if mark_max < 1 or mark_max > 5:
             raise ValueError("Error in mark.max.repo: ",mark_max," Value must be between 1 and 5")
 
-        for myRes in globalRepo[myType]:
+        for myRes in globalRepo:
+            print(myRes.tech + "=?=" + myType);
+            if myRes.tech != myType:
+                continue
             # myRes => all of the Results from myType
             for m in myRes.mark:
                 # m => metric
