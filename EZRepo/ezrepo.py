@@ -191,7 +191,6 @@ def repository_capability():
     cap.add_parameter("type.repo") #TODO add this to registry.json. Set not working like cap.add_parameter("type.repo", "ott, ping"). 
     cap.add_parameter("range.grade")
     cap.add_parameter("select.grade")
-    cap.add_parameter("metric.repo")
 
     cap.add_result_column("results.repo")
     cap.add_result_column("overall.grade")
@@ -234,9 +233,8 @@ class RepositoryService(mplane.scheduler.Service):
                 raise ValueError("Range must be specified either as a range with a separator of ' ... ' or with a single value.")
         else:
             (mark_min, mark_max) = myRange.split('...')
-        print("MIN: " + mark_min + " MAX: " + mark_max)
 
-        metric = spec.get_parameter_value("metric.repo")
+        select = spec.get_parameter_value("select.grade")
         iterator = 0
 
         mark_min = int(mark_min)
@@ -258,7 +256,8 @@ class RepositoryService(mplane.scheduler.Service):
                 # myRes.mark[m] => mark for the metric
                 # is metric filtered?
                 # metric can be overall, bandwidth, all
-                if m == metric or metric == 'all':
+                print("M: " + m + " select: " + select)
+                if m == select or select == 'all':
                     # will it fit for the mark?
                     if myRes.mark[m] >= mark_min and myRes.mark[m] <= mark_max:
                         # is in the queried period?
