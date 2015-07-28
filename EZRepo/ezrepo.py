@@ -79,8 +79,6 @@ class MyRepo(DatagramProtocol):
 
                 if not (g["gradeName"] == "overall" or g["gradeName"] == "bandWidth"):
                     raise ValueError("unknown gradeName specified: ", g["gradeName"])
-                #if not (g["appliesTo"]["recordType"] == "OTT" or g["appliesTo"]["recordType"] == "GLIMPSE" or g["appliesTo"]["recordType"] == "PING"):
-                #    raise ValueError("recordType: ", g["appliesTo"]["recordType"], " is not supported")
                 
                 if g["appliesTo"]["recordType"] not in self.thresholds:
                     # print("ADDING ", g["appliesTo"]["recordType"])
@@ -89,9 +87,6 @@ class MyRepo(DatagramProtocol):
                 self.thresholds[g["appliesTo"]["recordType"]].append(g)
 
         globalRepo = self.mark_results;
-
-    def doMark(self, metric, li, i, resultvalues):
-        return mark
 
     def handleResult(self, tech, _dict):
         if tech in self.thresholds:
@@ -124,12 +119,16 @@ class MyRepo(DatagramProtocol):
 
                                     if i != -1:
                                         # metric found in the result
-                                        stateMent = r['grade'] + " if " + _dict["resultvalues"][0][i] + " " + c["rel"] + " " + c["limit"] + " else -1"
+                                        stateMent = r['grade'] + " if " + _dict["resultvalues"][0][i] + " " + c["rel"] + " " + c["limit"] + " else 1"
                                         # print(stateMent)
                                         mark_result.mark[t["gradeName"]] = currGrade = eval(stateMent)
                             else:
                                 raise ValueError("JSON Error! IF condition must be specified")
+
+            # pushing result YAML with grades to list
             self.mark_results.append(mark_result)
+            # print("RESULT: " + str(_dict))
+            # print("MARK: " + str(mark_result.mark["overall"]))
             
                                                     
     def datagramReceived(self, data, hostAndPort):
@@ -142,12 +141,14 @@ class MyRepo(DatagramProtocol):
         _dict = eval(data.decode("utf-8"))
         if 'label' in _dict:
             label = _dict["label"]
+            tech = None
             if label.startswith("ping"):
-                self.handleResult("ping",_dict)
+                tech = "ping"
             elif label.startswith("ott"):
-                self.handleOTT(_dict)
+                tech = "ott"
+
+            self.handleResult("ping",_dict)
         globalRepo = self.mark_results
-        print(str(len(globalRepo)))
 
 def runEveryMinute():
     # saving the results to RESULTS_TMP
@@ -219,7 +220,22 @@ class RepositoryService(mplane.scheduler.Service):
         res.set_when(mplane.model.When(a = start_time, b = end_time))
 
         myType = spec.get_parameter_value("type.repo")
-        (mark_min, mark_max) = spec.get_parameter_value("range.grade").split(' ... ')
+        myRange = spec.get_parameter_value("range.grade")
+        # removing whitespaces, so accepted ranges are:
+        # 1 ... 5 and 1...5 as well
+        myRange.replace(" ", "")
+        mark_min = mark_max = -1
+        if not '...' in myRange:
+            # if not a range is defined only a single value
+            if isinstance( myRange, int ):
+                mark_min = myRange
+                mark_max = myRange
+            else:
+                raise ValueError("Range must be specified either as a range with a separator of ' ... ' or with a single value.")
+        else:
+            (mark_min, mark_max) = myRange.split('...')
+        print("MIN: " + mark_min + " MAX: " + mark_max)
+
         metric = spec.get_parameter_value("metric.repo")
         iterator = 0
 
@@ -241,17 +257,14 @@ class RepositoryService(mplane.scheduler.Service):
                 # m => metric
                 # myRes.mark[m] => mark for the metric
                 # is metric filtered?
-                print("1")
+                # metric can be overall, bandwidth, all
                 if m == metric or metric == 'all':
-                    print(" 2")
                     # will it fit for the mark?
                     if myRes.mark[m] >= mark_min and myRes.mark[m] <= mark_max:
-                        print("  3")
                         # is in the queried period?
                         (when_a , when_b) = mplane.model.Result(myRes.myResult)._when.datetimes()
                         print(when_a, " ", when_b)
                         if when_a >= start_time and when_b <= end_time: 
-                            print("   4")
                             print(myRes.myResult)
                             res.set_result_value("results.repo", myRes.myResult, iterator)
                             res.set_result_value("overall.grade", myRes.mark[m], iterator)

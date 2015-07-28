@@ -23,5 +23,4 @@ Run an `EZRepo` component on a specific port. Start a `ping` component with the 
 `EZRepo` will grade the received results, whose can be gathered via `ezrepo` capability.
 
 TODO
- - threshold.json
- - grading
+ - grading.json
