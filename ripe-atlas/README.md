@@ -1,5 +1,9 @@
 # Ripe Atlas
 
+This component integrates the Atlas Toolbox (https://github.com/pierdom/atlas-toolbox), 
+a collection of Perl command-line scripts from managing custom User Defined Measurements (UDMs) 
+on the RIPE Atlas network.
+
 ## 1. Installation
 ---------------------------------------
 
