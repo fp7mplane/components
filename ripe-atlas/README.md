@@ -7,13 +7,52 @@ on the RIPE Atlas network.
 ## 1. Installation
 ---------------------------------------
 
-    - Copy files from the mPlane interface (from the components GitHub) into protocol-ri/:
-    - Copy the 'registry.json' file into protocol-ri/mplane/components/
-    - Copy 'supervisor.conf' , 'component.conf' and 'client.conf' into protocol-ri/conf/
-    - Clone repository https://github.com/pierdom/atlas-toolbox.git into mplane/components/ripe-atlas
-    - Install atlas-toolbox
+- Copy files from the mPlane interface (from the components GitHub) into protocol-ri/:
+- Copy the 'registry.json' file into protocol-ri/mplane/components/
+- Copy 'supervisor.conf' , 'component.conf' and 'client.conf' into protocol-ri/conf/
+- Clone repository https://github.com/pierdom/atlas-toolbox.git into mplane/components/ripe-atlas
+- Install atlas-toolbox (follow steps reported on https://github.com/pierdom/atlas-toolbox.git)
 
-## 2. Running Probe
+## 2. Configuring database
+
+The component can produce output to a PostgreSQL database, to do that the parameter db_connect_params
+needs to be correctly set as a dsn parameter indicating the database to connect to (http://initd.org/psycopg/docs/module.html).
+For example to connect to a local database called "dbstream" available at port 5432 with user "mplane" password "123":
+
+```
+db_connect_params = dbname=dbstream port=5432 user=mplane password=123
+```
+Please note that to run the Postgres database locally you need to change the default config option in pg_hba.conf line:
+
+from
+
+```
+# TYPE DATABASE USER ADDRESS METHOD
+local  all      all          peer
+```
+
+to
+
+```
+# TYPE DATABASE USER ADDRESS METHOD
+local  all      all          md5
+```
+
+After this you'll need to restart PostgreSQL if it's running. E.g. sudo service postgresql restart
+
+The results will be stored in a table called ripe_results that needs to be created in the designated database.
+Just connect to the database:
+
+```
+psql -p 5432 -d dbstream -U mplane -W
+```
+And give the command:
+
+```
+\i ripe_result.sql
+```
+
+## 3. Running Probe
 ---------------------------------------
 
 After installing the RI, in a terminal window start supervisor:
@@ -54,7 +93,7 @@ ripeatlas-udm-create: Ok
 Checking for Specifications...
 ```
 
-## 3. Using RipeAtlas through ri-protocol
+## 4. Using RipeAtlas through ri-protocol
 ---------------------------------------
 
 Start a client to test the component:
@@ -92,7 +131,7 @@ Step 1, list a set of probes: find all probes in Italy at less than 2Km from an 
 ```
 |mplane| runcap ripeatlas-list-probe
 |when| = now
-ripeatlas.optionsline = ./probe-list.pl --country it --address "Piazza di Spagna, Rome" --radius 2
+ripeatlas.optionsline = --country it --address "Piazza di Spagna, Rome" --radius 2
 ok
 |mplane| listmeas
 Result  ripeatlas-list-probe-0 (token fb2c03ae6f46400c07cbfa5a17df82dd): 2015-09-02 15:00:05.883059
@@ -103,7 +142,7 @@ result: measure
     when        : 2015-09-02 15:00:05.883059
     registry    : http://ict-mplane.eu/registry/core
     parameters  ( 1): 
-                   ripeatlas.optionsline: ./probe-list.pl --country it --address "Piazza di Spagna, Rome" --radius 2
+                   ripeatlas.optionsline: --country it --address "Piazza di Spagna, Rome" --radius 2
     resultvalues( 7):
           result 0:
              ripeatlas.list.probe.resultline: 249	193.206.159.174	193.206.0.0/16	137	IT	41.8915	12.4895	1
@@ -197,4 +236,23 @@ Each result is a ping measurement, the columns definition is the following:
 timestamp | probe_id | probe_ip | dst_name | dst_addr | rtt
 
 The values of the ping are therefore 42.393, 37.595, ..., 29.025
+
+If the database connection is correctly configured, then all the results will be also stored in a database table called ripe_results.
+For example, the above mentioned commands, would give as a final result in the database:
+
+```
+        serial_time         |       capability       | measure_number |                                     result                                     
+----------------------------+------------------------+----------------+--------------------------------------------------------------------------------
+ 2015-09-03 15:32:54.475757 | ripeatlas-list-probe-1 |              0 | 249     193.206.159.174 193.206.0.0/16  137     IT      41.8915 12.4895 1
+ 2015-09-03 15:32:54.475757 | ripeatlas-list-probe-1 |              1 | 1447    2.231.3.243     2.224.0.0/13    12874   IT      41.8905 12.4795 1
+ 2015-09-03 15:32:54.475757 | ripeatlas-list-probe-1 |              2 | 11877   31.31.44.70     31.31.40.0/21   57329   IT      41.9005 12.5005 1
+ 2015-09-03 15:32:54.475757 | ripeatlas-list-probe-1 |              3 | 15878   79.60.56.81     79.60.0.0/16    3269    IT      41.8915 12.4705 1
+ 2015-09-03 15:32:54.475757 | ripeatlas-list-probe-1 |              4 | 18350   94.37.58.70     94.36.0.0/14    8612    IT      41.9075 12.4595 1
+ 2015-09-03 15:32:54.475757 | ripeatlas-list-probe-1 |              5 | 20259   NA      217.12.128.0/20 12559   IT      41.9015 12.4995 1
+ 2015-09-03 15:32:54.475757 | ripeatlas-list-probe-1 |              6 | 22094   151.24.148.182  151.24.0.0/16   1267    IT      41.8995 12.5015 1
+ 2015-09-03 15:37:10.422271 | ripeatlas-udm-create-3 |              0 | 2382480
+ 2015-09-03 15:38:10.55785  | ripeatlas-udm-result-4 |              0 | 1441294637      249     193.206.159.174 173.194.67.147  173.194.67.147  30.715
+ 2015-09-03 15:38:10.55785  | ripeatlas-udm-result-4 |              1 | 1441294637      249     193.206.159.174 173.194.67.147  173.194.67.147  30.526
+ 2015-09-03 15:38:10.55785  | ripeatlas-udm-result-4 |              2 | 1441294637      249     193.206.159.174 173.194.67.147  173.194.67.147  30.5
+```
 

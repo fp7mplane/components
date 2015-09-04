@@ -4,6 +4,11 @@
   "registry-uri": "http://ict-mplane.eu/registry/core",
   "elements": [
     {
+      "name": "ripeatlas.ripeatlas.db_connect_params",
+      "prim": "string",
+      "desc": "parameter line to connect to Postgres database"
+    },
+    {
       "name": "ripeatlas.optionsline",
       "prim": "string",
       "desc": "sys.args like string line containing options to pass to perl scripts"

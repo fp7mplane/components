@@ -33,52 +33,59 @@ import mplane.model
 import mplane.scheduler
 
 import shlex
+import psycopg2
 
-def ripeatlas_list_probe_capability():
+def ripeatlas_list_probe_capability(db_connect_params = None):
     cap = mplane.model.Capability(label="ripeatlas-list-probe", when = "now")
+    cap.add_parameter("ripeatlas.db_connect_params", db_connect_params)
     cap.add_parameter("ripeatlas.optionsline")
     cap.add_result_column("ripeatlas.list.probe.resultline")
     return cap
 
-def ripeatlas_udm_lookup_capability():
+def ripeatlas_udm_lookup_capability(db_connect_params = None):
     cap = mplane.model.Capability(label="ripeatlas-udm-lookup", when = "now")
+    cap.add_parameter("ripeatlas.db_connect_params", db_connect_params)
     cap.add_parameter("ripeatlas.optionsline")
     cap.add_result_column("ripeatlas.udm.lookup.resultline")
     return cap
 
-def ripeatlas_udm_create_capability():
+def ripeatlas_udm_create_capability(db_connect_params = None):
     cap = mplane.model.Capability(label="ripeatlas-udm-create", when = "now")
+    cap.add_parameter("ripeatlas.db_connect_params", db_connect_params)
     cap.add_parameter("ripeatlas.optionsline")
     cap.add_result_column("ripeatlas.udm.create.resultline")
     return cap
 
-def ripeatlas_udm_status_capability():
+def ripeatlas_udm_status_capability(db_connect_params = None):
     cap = mplane.model.Capability(label="ripeatlas-udm-status", when = "now")
+    cap.add_parameter("ripeatlas.db_connect_params", db_connect_params)
     cap.add_parameter("ripeatlas.optionsline")
     cap.add_result_column("ripeatlas.udm.status.resultline")
     return cap
 
-def ripeatlas_udm_result_capability():
+def ripeatlas_udm_result_capability(db_connect_params = None):
     cap = mplane.model.Capability(label="ripeatlas-udm-result", when = "now")
+    cap.add_parameter("ripeatlas.db_connect_params", db_connect_params)
     cap.add_parameter("ripeatlas.optionsline")
     cap.add_result_column("ripeatlas.udm.result.resultline")
     return cap
 
-def ripeatlas_udm_stop_capability():
+def ripeatlas_udm_stop_capability(db_connect_params = None):
     cap = mplane.model.Capability(label="ripeatlas-udm-stop", when = "now")
+    cap.add_parameter("ripeatlas.db_connect_params", db_connect_params)
     cap.add_parameter("ripeatlas.optionsline")
     cap.add_result_column("ripeatlas.udm.stop.resultline")
     return cap
 
 
-def services():
+def services(db_connect_params):
     services = []
-    services.append(RipeAtlasService(ripeatlas_list_probe_capability()))
-    services.append(RipeAtlasService(ripeatlas_udm_lookup_capability()))
-    services.append(RipeAtlasService(ripeatlas_udm_create_capability()))
-    services.append(RipeAtlasService(ripeatlas_udm_status_capability()))
-    services.append(RipeAtlasService(ripeatlas_udm_result_capability()))
-    services.append(RipeAtlasService(ripeatlas_udm_stop_capability()))
+    services.append(RipeAtlasService(ripeatlas_list_probe_capability(db_connect_params)))
+    services.append(RipeAtlasService(ripeatlas_udm_lookup_capability(db_connect_params)))
+    services.append(RipeAtlasService(ripeatlas_udm_create_capability(db_connect_params)))
+    services.append(RipeAtlasService(ripeatlas_udm_status_capability(db_connect_params)))
+    services.append(RipeAtlasService(ripeatlas_udm_result_capability(db_connect_params)))
+    services.append(RipeAtlasService(ripeatlas_udm_stop_capability(db_connect_params)))
     return services
 
 class RipeAtlasService(mplane.scheduler.Service):
@@ -88,6 +95,9 @@ class RipeAtlasService(mplane.scheduler.Service):
     def run(self, spec, check_interrupt):
         # set command
         cmd_argv = []
+        # manage db connection
+        pg_con = None
+        pg_cur = None
         result_column_name = ""
         start_time = str(datetime.utcnow())
         if "ripeatlas-list-probe" in spec.get_label():
@@ -115,6 +125,10 @@ class RipeAtlasService(mplane.scheduler.Service):
         # set command options
         if spec.has_parameter("ripeatlas.optionsline"):
             cmd_argv += shlex.split(spec.get_parameter_value("ripeatlas.optionsline"))
+        if spec.has_parameter("ripeatlas.db_connect_params"):
+            pg_con = psycopg2.connect(spec.get_parameter_value("ripeatlas.db_connect_params"))
+            pg_cur = pg_con.cursor()
+             
         
         # run command
         ripe_atlas_process = subprocess.Popen(cmd_argv, stdout=subprocess.PIPE)
@@ -126,7 +140,15 @@ class RipeAtlasService(mplane.scheduler.Service):
         res_cnt = 0
         for line in ripe_atlas_process.stdout:
             line_dec = line.decode("utf-8")
+            line_dec = line_dec.rstrip("\n")
             res.set_result_value(result_column_name, line_dec, res_cnt)
+            if pg_cur is not None:
+                pg_cur.execute("INSERT INTO ripe_results VALUES ('"
+                    + str(start_time) + "','"
+                    + str(spec.get_label()) + "',"
+                    + str(res_cnt) + ",'"
+                    + str(line_dec) + "'"
+                    + ")")
             res_cnt += 1
 
         # set endtime
@@ -140,5 +162,9 @@ class RipeAtlasService(mplane.scheduler.Service):
         except OSError:
             pass
         ripe_atlas_process.wait()
-
+        
+        if pg_con is not None:
+            pg_con.commit()
+            pg_con.close()
+            pg_cur.close()
         return res
