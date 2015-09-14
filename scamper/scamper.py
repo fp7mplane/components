@@ -913,19 +913,22 @@ class ScamperService(mplane.scheduler.Service):
             udp=spec.get_parameter_value("scamper.tracebox.udp")
             if udp is None:
                 spec.set_parameter_value("scamper.tracebox.udp",self._default_udp)
+        else:
+            udp=None          
 
+        if spec.has_parameter("scamper.tracebox.dport"):
             dport=spec.get_parameter_value("scamper.tracebox.dport")
             if dport is None:
                 spec.set_parameter_value("scamper.tracebox.dport",self._default_dport)
+        else:
+            dport=None  
 
+        if spec.has_parameter("scamper.tracebox.probe"):
             probe=spec.get_parameter_value("scamper.tracebox.probe")
             if probe is None:
                 spec.set_parameter_value("scamper.tracebox.probe",self._default_probe(udp))
-
         else:
-            udp=None
-            dport=None
-            probe=None             
+            probe=None              
         
         #launch probe
         if spec.has_parameter("destination.ip4"):
