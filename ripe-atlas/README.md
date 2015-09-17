@@ -1,8 +1,6 @@
 # Ripe Atlas mPlane Proxy
 
-This component integrates the Atlas Toolbox (https://github.com/pierdom/atlas-toolbox), 
-a collection of Perl command-line scripts from managing custom User Defined Measurements (UDMs) 
-on the RIPE Atlas network.
+This component integrates the Atlas Toolbox (https://github.com/pierdom/atlas-toolbox) into the mPlane RI protocol. Atlas Toolbox is a collection of Perl command-line scripts from managing custom User Defined Measurements (UDMs) on the RIPE Atlas network.
 
 ## 1. Installation
 ---------------------------------------
