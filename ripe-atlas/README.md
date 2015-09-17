@@ -1,4 +1,4 @@
-# Ripe Atlas
+# Ripe Atlas mPlane Proxy
 
 This component integrates the Atlas Toolbox (https://github.com/pierdom/atlas-toolbox), 
 a collection of Perl command-line scripts from managing custom User Defined Measurements (UDMs) 
