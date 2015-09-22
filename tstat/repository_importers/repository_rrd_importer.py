@@ -192,10 +192,6 @@ class IndirectResultHandler(MPlaneHandler):
     def post(self):
         peer_dn = self.tls.extract_peer_identity(self.request)
         # check the class of the certificate (Client, Component, Repository).
-        # this function can only be used by components
-        if (peer_dn.find("Components") == -1):
-            self._respond_plain_text(401, "Not Authorized. Only Components can use this function")
-            return
         
         # unwrap json message from body
         if (self.request.headers["Content-Type"] == "application/json"):
