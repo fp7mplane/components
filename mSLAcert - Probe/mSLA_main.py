@@ -3,7 +3,7 @@
 #
 # (c) 2013-2014 mPlane Consortium (http://www.ict-mplane.eu)
 #               Author: Edion TEGO
-# mSLAcert-V-3.0.2
+# mSLAcert-V-3.0.4
 # 
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU Lesser General Public License as published by the Free

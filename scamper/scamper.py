@@ -222,6 +222,7 @@ def _parse_trace(tb_output):
 
 def _tracebox_process(sipaddr, dipaddr, v, udp=None, dport=None, probe=None, get_icmp_payload_len=None):
     tracebox_argv = list(_traceboxcmd)
+
     if v is 6:
         tracebox_argv[-1] += " "+_traceboxopt_v6
     if udp is not None and udp is not "0":
@@ -232,7 +233,7 @@ def _tracebox_process(sipaddr, dipaddr, v, udp=None, dport=None, probe=None, get
         tracebox_argv[-1] += " "+_traceboxopt_dport+" "+str(dport)
     if probe is not None and udp is not "":
         tracebox_argv[-1] += " "+_traceboxopt_probe+" "+str(probe)
-
+   
     tracebox_argv += [_scamper_dip, str(dipaddr)]
 
     print("running " + " ".join(tracebox_argv))
@@ -957,7 +958,12 @@ class ScamperService(mplane.scheduler.Service):
 
         for i, line in enumerate(tb_output[2:]):
             pline=line.split()
-            if pline[1] == "*":
+            # Skip ICMPs/RSTs
+            if ((len(pline) == 1 and pline[-1][-1] != ':') or
+                (len(pline) == 2 and pline[-1][-1] != '*' 
+                                 and ':' not in pline[-1])):
+                continue
+            elif pline[1] == "*":
                 tuples.append(TraceboxValue(pline[1], "", ""))
             elif len(pline)<=min_words:
                 if line == tb_output[-1]:

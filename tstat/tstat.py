@@ -40,27 +40,29 @@ Implements tStat capabilities and services
 
 """
 
-def services(runtimeconf, tstat_rrd_path, config_path, math_path):
+def services(runtimeconf, tstat_rrd_path, config_path, math_path, System_ID):
     services = []
     if runtimeconf is not None:
-        services.append(tStatExporterService(tcp_flows_capability(), mplane.utils.search_path(runtimeconf)))
-        services.append(tStatExporterService(e2e_tcp_flows_capability(), mplane.utils.search_path(runtimeconf)))
-        services.append(tStatExporterService(tcp_options_capability(), mplane.utils.search_path(runtimeconf)))
-        services.append(tStatExporterService(tcp_p2p_stats_capability(), mplane.utils.search_path(runtimeconf)))
-        services.append(tStatExporterService(tcp_layer7_capability(), mplane.utils.search_path(runtimeconf)))
-        services.append(tStatExporterService(rrd_capability(), mplane.utils.search_path(runtimeconf), tstat_rrd_path))
-        services.append(tStatExporterService(exporter_rrd_capability(), mplane.utils.search_path(runtimeconf), tstat_rrd_path, config_path))
-        services.append(tStatExporterService(http_trans_capability(), mplane.utils.search_path(runtimeconf)))
-        services.append(tStatExporterService(exporter_streaming_capability(), mplane.utils.search_path(runtimeconf)))
-        services.append(tStatExporterService(exporter_log_capability(), mplane.utils.search_path(runtimeconf), config_path, math_path=math_path))
+        services.append(tStatExporterService(tcp_flows_capability(System_ID), mplane.utils.search_path(runtimeconf)))
+        services.append(tStatExporterService(e2e_tcp_flows_capability(System_ID), mplane.utils.search_path(runtimeconf)))
+        services.append(tStatExporterService(tcp_options_capability(System_ID), mplane.utils.search_path(runtimeconf)))
+        services.append(tStatExporterService(tcp_p2p_stats_capability(System_ID), mplane.utils.search_path(runtimeconf)))
+        services.append(tStatExporterService(tcp_layer7_capability(System_ID), mplane.utils.search_path(runtimeconf)))
+        services.append(tStatExporterService(rrd_capability(System_ID), mplane.utils.search_path(runtimeconf), tstat_rrd_path))
+        services.append(tStatExporterService(exporter_rrd_capability(System_ID), mplane.utils.search_path(runtimeconf), tstat_rrd_path, config_path))
+        services.append(tStatExporterService(http_trans_capability(System_ID), mplane.utils.search_path(runtimeconf)))
+        services.append(tStatExporterService(exporter_streaming_capability(System_ID), mplane.utils.search_path(runtimeconf)))
+        services.append(tStatExporterService(exporter_log_capability(System_ID), mplane.utils.search_path(runtimeconf), config_path, math_path=math_path))
     else:
         raise ValueError("missing 'runtimeconf' parameter for tStat capabilities")
     return services
 
-def tcp_flows_capability():
+
+def tcp_flows_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-log_tcp_complete-core", when = "now ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_result_column("source.ip4")
     cap.add_result_column("source.port")
@@ -108,10 +110,11 @@ def tcp_flows_capability():
     cap.add_result_column("tstat.flow.class.http")
     return cap
 
-def e2e_tcp_flows_capability():
+def e2e_tcp_flows_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-log_tcp_complete-end_to_end", when = "now ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_result_column("rtt.average.ms")
     cap.add_result_column("rtt.min.ms")
@@ -122,10 +125,11 @@ def e2e_tcp_flows_capability():
     cap.add_result_column("ttl.max")
     return cap
 
-def tcp_options_capability():
+def tcp_options_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-log_tcp_complete-tcp_options", when = "now ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_result_column("source.RFC1323.ws")
     cap.add_result_column("source.RFC1323.ts")
@@ -176,10 +180,11 @@ def tcp_options_capability():
     cap.add_result_column("destination.SYN.equal_seqno")
     return cap
 
-def tcp_p2p_stats_capability():
+def tcp_p2p_stats_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-log_tcp_complete-p2p_stats", when = "now ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_result_column("p2p.subtype")
     cap.add_result_column("ed2k.data")
@@ -189,10 +194,11 @@ def tcp_p2p_stats_capability():
     cap.add_result_column("ed2k.chat")
     return cap    
 
-def tcp_layer7_capability():
+def tcp_layer7_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-log_tcp_complete-layer7", when = "now ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_result_column("source.psh_separated")
     cap.add_result_column("destination.psh_separated")
@@ -200,10 +206,11 @@ def tcp_layer7_capability():
     cap.add_result_column("ssl.hello.server")
     return cap
 
-def http_trans_capability():
+def http_trans_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-log_http_complete", when = "now ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_result_column("source.ip4")
     cap.add_result_column("source.port")
@@ -227,10 +234,11 @@ def http_trans_capability():
 
     return cap
 
-def exporter_streaming_capability():
+def exporter_streaming_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-exporter_streaming", when = "now ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_parameter("repository.url")
     cap.add_parameter("log.folder")
@@ -238,10 +246,11 @@ def exporter_streaming_capability():
     cap.add_parameter("log.time")
     return cap
 
-def rrd_capability():
+def rrd_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-log_rrds", when = "now ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
 
     cap.add_result_column("Ethernet.Related.metrics")
@@ -256,10 +265,11 @@ def rrd_capability():
 
     return cap
 
-def exporter_rrd_capability():
+def exporter_rrd_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-exporter_rrd", when = "past ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_parameter("repository.url")    
     cap.add_result_column("rrdtimestamp")
@@ -268,10 +278,11 @@ def exporter_rrd_capability():
     #cap.add_result_column("repository.capability.token")
     return cap
 
-def exporter_log_capability():
+def exporter_log_capability(System_ID = None):
     cap = mplane.model.Capability(label="tstat-exporter_log", when = "past ... future")
+    cap.add_parameter("System_ID",System_ID)
     cap.add_metadata("System_type", "tStat")
-    cap.add_metadata("System_ID", "tStat-Proxy")
+    cap.add_metadata("System_ID", "tStat-Proxy-01")
     cap.add_metadata("System_version", "0.1")
     cap.add_parameter("repository.url")
     return cap
