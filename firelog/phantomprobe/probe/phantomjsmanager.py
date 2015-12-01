@@ -99,13 +99,14 @@ class PJSLauncher():
     #    return result
 
     def browse_url(self, urlx):
+        logger.debug("phantomjsmanager: browse_url")
         if not re.match('http://', urlx):
             url = 'http://' + urlx.strip()
         else:
             url = urlx.strip()
         if url[-1] != '\/':
             url += '/'
-
+        logger.debug("phantomjsmanager: browse_url: url = {}".format(url))
         #url = self.check_for_redirection(url)
         logger.info('Browsing %s', url)
         res = {'mem': 0.0, 'cpu': 0.0}
